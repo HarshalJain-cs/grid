@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { GameProvider } from "@/store/gameStore";
 import { ConvexClientProvider } from "@/lib/convex";
 import { AnimatePresence, motion } from "framer-motion";
+import HeroLanding from "./pages/HeroLanding";
 import LandingPage from "./pages/LandingPage";
 import Zone1PowerPuzzle from "./pages/zones/Zone1PowerPuzzle";
 import Zone2CarbonQuest from "./pages/zones/Zone2CarbonQuest";
