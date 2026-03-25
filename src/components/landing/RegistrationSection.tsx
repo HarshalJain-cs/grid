@@ -72,7 +72,7 @@ export default function RegistrationSection() {
           <button onClick={handleSubmit} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors mb-3">
             Enter the Quest →
           </button>
-          <p className="font-mono text-[11px] text-ink-muted text-center">Free to participate · BMS CE students only</p>
+          <p className="font-mono text-[11px] text-ink-muted text-center">Free to participate · BMSCE students only</p>
         </div>
       </div>
     </section>

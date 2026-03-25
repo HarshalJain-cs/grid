@@ -24,7 +24,7 @@ export default function HeroSection() {
             Solve the Grid, Save the Planet.
           </h2>
           <div className="flex flex-wrap gap-3 mb-8">
-            {['📅 2026 · BMS CE', '👥 Teams of 2', '🏆 4 Zones · 500 pts'].map(chip => (
+            {['📅 2026 · BMSCE', '👥 Teams of 2', '🏆 4 Zones · 500 pts'].map(chip => (
               <span key={chip} className="font-mono text-xs bg-cream-alt border border-cream-border px-3 py-1.5 rounded-full text-ink-muted">
                 {chip}
               </span>
