@@ -32,8 +32,10 @@ export default function ZoneNav() {
             <div key={d.key} className="flex items-center">
               {i > 0 && <div className="w-3 md:w-6 h-px bg-cream-border" />}
               <button
-                onClick={() => navigate(d.path)}
+                onClick={() => !d.offline && navigate(d.path)}
+                title={d.offline ? 'Offline zone — played in person' : undefined}
                 className={`w-8 h-8 md:w-7 md:h-7 rounded-full flex items-center justify-center font-mono text-[11px] font-bold transition-all ${
+                  d.offline ? 'border border-dashed border-cream-border text-ink-muted/50 cursor-default' :
                   completed ? 'bg-leaf text-white' :
                   isCurrent ? 'border-2 border-leaf text-leaf bg-leaf-bg' :
                   'border border-cream-border text-ink-muted'
