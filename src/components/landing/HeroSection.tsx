@@ -60,7 +60,7 @@ export default function HeroSection() {
                 </div>
               ))}
             </div>
-            <button onClick={() => navigate('/trivia')} className="w-full mt-6 bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors">
+            <button onClick={() => navigate('/entry')} className="w-full mt-6 bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors">
               Enter the Quest →
             </button>
           </div>
