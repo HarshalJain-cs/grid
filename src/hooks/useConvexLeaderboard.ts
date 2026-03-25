@@ -5,9 +5,11 @@ import type { LeaderboardEntry } from "@/types";
 export function useConvexLeaderboard() {
   const data = useQuery(api.leaderboard.list);
   const upsert = useMutation(api.leaderboard.upsert);
+  const updateZoneScoreMut = useMutation(api.leaderboard.updateZoneScore);
   const updateTeam = useMutation(api.leaderboard.updateTeam);
   const deleteTeam = useMutation(api.leaderboard.deleteTeam);
   const resetAll = useMutation(api.leaderboard.resetAll);
+  const registerTeamMut = useMutation(api.leaderboard.registerTeam);
 
   const leaderboard: LeaderboardEntry[] = (data ?? []).map((d) => ({
     teamId: d.teamId,
@@ -35,6 +37,17 @@ export function useConvexLeaderboard() {
     },
     resetLeaderboard: async () => {
       await resetAll();
+    },
+    syncZoneScore: async (
+      teamId: string,
+      teamName: string,
+      zone: 'zone1' | 'zone2' | 'zone3' | 'zone4' | 'trivia',
+      score: number
+    ) => {
+      await updateZoneScoreMut({ teamId, teamName, zone, score });
+    },
+    registerTeam: async (teamId: string, teamName: string) => {
+      await registerTeamMut({ teamId, teamName });
     },
   };
 }

@@ -14,6 +14,9 @@ export default function HeroSection() {
     <section className="py-20 md:py-32 px-6">
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-12 items-start">
         <div className="animate-fade-rise">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-3">
+            IEEE Computer Society, BMSCE presents
+          </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-6">
             ⚡ TEAM CHALLENGE · BMSCE
           </p>

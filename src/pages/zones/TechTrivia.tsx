@@ -1,55 +1,46 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useGame } from '@/store/gameStore';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import TimerBar from '@/components/shared/TimerBar';
 import ZoneTransition from '@/components/shared/ZoneTransition';
 import { triviaQuestions } from '@/data/techTrivia';
 
 export default function TechTrivia() {
-  const { dispatch } = useGame();
+  const { state, dispatch } = useGame();
+  const { syncZoneScore } = useConvexLeaderboard();
   const [currentQ, setCurrentQ] = useState(0);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [answers, setAnswers] = useState<Record<number, number>>({});
   const [finished, setFinished] = useState(false);
 
-  const finishGame = useCallback(() => {
+  // Shuffle options once per mount — store shuffled index arrays per question
+  const shuffledIndices = useMemo(() =>
+    triviaQuestions.map(q => {
+      const indices = q.options.map((_, i) => i);
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+      return indices;
+    }), []);
+
+  const submitQuiz = useCallback(async () => {
     if (finished) return;
     setFinished(true);
-    const score = correctCount * 5;
+    const correct = triviaQuestions.reduce(
+      (sum, q, i) => (answers[i] === q.correctIndex ? sum + 1 : sum), 0
+    );
+    const score = correct * 5;
     dispatch({ type: 'SET_ZONE_SCORE', zone: 'trivia', score });
     dispatch({ type: 'COMPLETE_ZONE', zone: 'trivia' });
     dispatch({ type: 'SUBMIT_TO_LEADERBOARD' });
-  }, [correctCount, finished]);
+    // Sync to Convex backend
+    await syncZoneScore(state.teamId, state.teamName || state.teamId, 'trivia', score);
+  }, [answers, finished, state.teamId, state.teamName, dispatch, syncZoneScore]);
 
-  const handleSelect = (idx: number) => {
-    if (showFeedback) return;
-    setSelected(idx);
-    setShowFeedback(true);
-    const isCorrect = idx === triviaQuestions[currentQ].correctIndex;
-    if (isCorrect) setCorrectCount(prev => prev + 1);
-
-    setTimeout(() => {
-      if (currentQ < triviaQuestions.length - 1) {
-        setCurrentQ(prev => prev + 1);
-        setSelected(null);
-        setShowFeedback(false);
-      } else {
-        setFinished(true);
-      }
-    }, 1500);
-  };
-
-  useEffect(() => {
-    if (finished) {
-      const score = correctCount * 5;
-      dispatch({ type: 'SET_ZONE_SCORE', zone: 'trivia', score });
-      dispatch({ type: 'COMPLETE_ZONE', zone: 'trivia' });
-      dispatch({ type: 'SUBMIT_TO_LEADERBOARD' });
-    }
-  }, [finished]);
-
+  const correctCount = triviaQuestions.reduce(
+    (sum, q, i) => (answers[i] === q.correctIndex ? sum + 1 : sum), 0
+  );
   const score = correctCount * 5;
-  
 
   if (finished) {
     return (
@@ -66,6 +57,8 @@ export default function TechTrivia() {
   }
 
   const q = triviaQuestions[currentQ];
+  const shuffled = shuffledIndices[currentQ];
+  const answeredCount = Object.keys(answers).length;
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto">
@@ -76,12 +69,12 @@ export default function TechTrivia() {
         </div>
       </div>
 
-      <TimerBar onExpire={finishGame} />
+      <TimerBar onExpire={submitQuiz} />
 
       <div className="mt-4 mb-6">
         <div className="flex items-center justify-between mb-2">
           <span className="font-mono text-[11px] text-ink-muted">Question {currentQ + 1} of {triviaQuestions.length}</span>
-          <span className="font-mono text-[11px] text-leaf">{correctCount} correct</span>
+          <span className="font-mono text-[11px] text-ink-muted">{answeredCount} of {triviaQuestions.length} answered</span>
         </div>
         <div className="h-1.5 bg-cream-border rounded-full overflow-hidden">
           <div className="h-full bg-leaf rounded-full transition-all" style={{ width: `${((currentQ + 1) / triviaQuestions.length) * 100}%` }} />
@@ -92,23 +85,43 @@ export default function TechTrivia() {
         <p className="font-body text-lg text-ink">{q.question}</p>
       </div>
 
-      <div className="space-y-3">
-        {q.options.map((opt, j) => {
-          let cls = 'border-cream-border text-ink hover:border-leaf/50 bg-white';
-          if (showFeedback) {
-            if (j === q.correctIndex) cls = 'bg-green-50 border-green-500 text-green-800';
-            else if (j === selected) cls = 'bg-red-50 border-red-500 text-red-800';
-          } else if (selected === j) {
-            cls = 'bg-leaf-bg border-leaf text-ink';
-          }
+      <div className="space-y-3 mb-6">
+        {shuffled.map((origIdx, displayIdx) => {
+          const opt = q.options[origIdx];
+          const isSelected = answers[currentQ] === origIdx;
           return (
-            <button key={j} onClick={() => handleSelect(j)} disabled={showFeedback}
-              className={`w-full text-left p-4 rounded-xl border transition-all ${cls}`}>
-              <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + j)})</span>
+            <button key={origIdx} onClick={() => setAnswers(prev => ({ ...prev, [currentQ]: origIdx }))}
+              className={`w-full text-left p-4 rounded-xl border transition-all ${isSelected ? 'bg-leaf-bg border-leaf text-ink' : 'border-cream-border text-ink hover:border-leaf/50 bg-white'}`}>
+              <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + displayIdx)})</span>
               <span className="font-body text-sm">{opt}</span>
             </button>
           );
         })}
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          disabled={currentQ === 0}
+          onClick={() => setCurrentQ(prev => prev - 1)}
+          className="flex-1 border border-cream-border text-ink font-body font-medium py-3 rounded-full disabled:opacity-40 hover:bg-cream-alt transition-colors"
+        >
+          Previous
+        </button>
+        {currentQ < triviaQuestions.length - 1 ? (
+          <button
+            onClick={() => setCurrentQ(prev => prev + 1)}
+            className="flex-1 bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors"
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            onClick={submitQuiz}
+            className="flex-1 bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors"
+          >
+            Submit
+          </button>
+        )}
       </div>
     </div>
   );

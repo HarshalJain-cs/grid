@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { Users, Shield, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -9,17 +10,22 @@ const VOLUNTEER_PIN = '2604';
 export default function EntryGate() {
   const navigate = useNavigate();
   const { dispatch } = useGame();
+  const { registerTeam, syncZoneScore } = useConvexLeaderboard();
   const [mode, setMode] = useState<'select' | 'participant' | 'volunteer'>('select');
   const [teamId, setTeamId] = useState('');
   const [teamName, setTeamName] = useState('');
   const [pin, setPin] = useState('');
 
-  const handleParticipantStart = () => {
+  const handleParticipantStart = async () => {
     if (!teamId.trim()) {
       toast.error('Please enter your Team ID');
       return;
     }
-    dispatch({ type: 'SET_TEAM_ID', teamId: teamId.trim(), teamName: teamName.trim() || teamId.trim() });
+    const id = teamId.trim();
+    const name = teamName.trim() || id;
+    dispatch({ type: 'SET_TEAM_ID', teamId: id, teamName: name });
+    // Register team in Convex backend
+    await registerTeam(id, name);
     navigate('/trivia');
   };
 

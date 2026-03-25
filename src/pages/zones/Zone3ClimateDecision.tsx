@@ -1,26 +1,31 @@
 import { useState, useCallback } from 'react';
 import { useGame } from '@/store/gameStore';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import TimerBar from '@/components/shared/TimerBar';
 import ZoneTransition from '@/components/shared/ZoneTransition';
 import { climateScenarios } from '@/data/zone3Data';
 
 export default function Zone3ClimateDecision() {
-  const { dispatch } = useGame();
+  const { state, dispatch } = useGame();
+  const { syncZoneScore } = useConvexLeaderboard();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (showResults) return;
     const total = climateScenarios.reduce((sum, s, i) => {
       const chosen = answers[i];
       return sum + (chosen !== undefined ? s.options[chosen].score : 0);
     }, 0);
-    dispatch({ type: 'SET_ZONE_SCORE', zone: 'zone3', score: Math.min(total, 100) });
+    const score = Math.min(total, 100);
+    dispatch({ type: 'SET_ZONE_SCORE', zone: 'zone3', score });
     dispatch({ type: 'COMPLETE_ZONE', zone: 'zone3' });
     dispatch({ type: 'SUBMIT_TO_LEADERBOARD' });
     setShowResults(true);
-  }, [answers, showResults]);
+    // Sync to Convex backend
+    await syncZoneScore(state.teamId, state.teamName || state.teamId, 'zone3', score);
+  }, [answers, showResults, state.teamId, state.teamName, dispatch, syncZoneScore]);
 
   const scenario = climateScenarios[currentIdx];
 
@@ -38,10 +43,9 @@ export default function Zone3ClimateDecision() {
           {climateScenarios.map((s, i) => (
             <div key={i} className="border border-cream-border rounded-xl p-4 bg-white">
               <p className="font-display text-base text-ink mb-1">{s.title}</p>
-              <p className="font-body text-xs text-ink-muted mb-1">
+              <p className="font-body text-xs text-ink-muted">
                 Your choice: {answers[i] !== undefined ? s.options[answers[i]].text : 'Not answered'}
               </p>
-              <p className="font-mono text-sm text-leaf">{answers[i] !== undefined ? s.options[answers[i]].score : 0}/20 pts</p>
             </div>
           ))}
         </div>
@@ -84,12 +88,22 @@ export default function Zone3ClimateDecision() {
         ))}
       </div>
 
-      <button
-        disabled={answers[currentIdx] === undefined}
-        onClick={() => currentIdx < 4 ? setCurrentIdx(currentIdx + 1) : handleSubmit()}
-        className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full disabled:opacity-40">
-        {currentIdx < 4 ? 'Next Scenario →' : 'Submit Zone 3 →'}
-      </button>
+      <div className="flex gap-3">
+        <button
+          disabled={currentIdx === 0}
+          onClick={() => setCurrentIdx(prev => prev - 1)}
+          className="flex-1 border border-cream-border text-ink font-body font-medium py-3 rounded-full disabled:opacity-40 hover:bg-cream-alt transition-colors"
+        >
+          Previous
+        </button>
+        <button
+          disabled={answers[currentIdx] === undefined}
+          onClick={() => currentIdx < 4 ? setCurrentIdx(currentIdx + 1) : handleSubmit()}
+          className="flex-1 bg-leaf text-white font-body font-medium py-3 rounded-full disabled:opacity-40 hover:bg-leaf/90 transition-colors"
+        >
+          {currentIdx < 4 ? 'Next' : 'Submit Zone 3'}
+        </button>
+      </div>
     </div>
   );
 }

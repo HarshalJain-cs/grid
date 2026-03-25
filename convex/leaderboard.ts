@@ -1,6 +1,46 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+// --- Teams ---
+
+export const registerTeam = mutation({
+  args: {
+    teamId: v.string(),
+    teamName: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("teams")
+      .withIndex("by_teamId", (q) => q.eq("teamId", args.teamId))
+      .first();
+    if (existing) return;
+    await ctx.db.insert("teams", {
+      teamId: args.teamId,
+      teamName: args.teamName || args.teamId,
+      registeredAt: Date.now(),
+    });
+  },
+});
+
+export const getTeam = query({
+  args: { teamId: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("teams")
+      .withIndex("by_teamId", (q) => q.eq("teamId", args.teamId))
+      .first();
+  },
+});
+
+export const listTeams = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("teams").collect();
+  },
+});
+
+// --- Leaderboard ---
+
 export const list = query({
   args: {},
   handler: async (ctx) => {
@@ -29,6 +69,48 @@ export const upsert = mutation({
       await ctx.db.patch(existing._id, args);
     } else {
       await ctx.db.insert("leaderboard", args);
+    }
+  },
+});
+
+export const updateZoneScore = mutation({
+  args: {
+    teamId: v.string(),
+    teamName: v.string(),
+    zone: v.string(),
+    score: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("leaderboard")
+      .withIndex("by_teamId", (q) => q.eq("teamId", args.teamId))
+      .first();
+
+    if (existing) {
+      const update: Record<string, number | string> = {
+        [args.zone]: args.score,
+        timestamp: Date.now(),
+      };
+      const updated = { ...existing, ...update };
+      const total = (updated.zone1 as number) + (updated.zone2 as number) +
+        (updated.zone3 as number) + (updated.zone4 as number) + (updated.trivia as number);
+      update.total = Math.min(total, 500);
+      await ctx.db.patch(existing._id, update);
+    } else {
+      const entry: Record<string, number | string> = {
+        teamId: args.teamId,
+        teamName: args.teamName,
+        zone1: 0,
+        zone2: 0,
+        zone3: 0,
+        zone4: 0,
+        trivia: 0,
+        total: 0,
+        timestamp: Date.now(),
+      };
+      entry[args.zone] = args.score;
+      entry.total = Math.min(args.score, 500);
+      await ctx.db.insert("leaderboard", entry as any);
     }
   },
 });

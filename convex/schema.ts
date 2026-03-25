@@ -2,6 +2,12 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  teams: defineTable({
+    teamId: v.string(),
+    teamName: v.string(),
+    registeredAt: v.number(),
+  }).index("by_teamId", ["teamId"]),
+
   leaderboard: defineTable({
     teamId: v.string(),
     teamName: v.string(),

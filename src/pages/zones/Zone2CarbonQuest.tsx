@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useGame } from '@/store/gameStore';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import TimerBar from '@/components/shared/TimerBar';
 import ZoneTransition from '@/components/shared/ZoneTransition';
 import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/data/zone2Data';
@@ -7,7 +8,8 @@ import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/dat
 type Section = 'lifestyle' | 'optimize' | 'campus' | 'riddles' | 'results';
 
 export default function Zone2CarbonQuest() {
-  const { dispatch } = useGame();
+  const { state, dispatch } = useGame();
+  const { syncZoneScore } = useConvexLeaderboard();
   const [section, setSection] = useState<Section>('lifestyle');
   const [initialAnswers, setInitialAnswers] = useState<Record<string, number>>({});
   const [optimizedAnswers, setOptimizedAnswers] = useState<Record<string, number>>({});
@@ -51,7 +53,7 @@ export default function Zone2CarbonQuest() {
 
   const calcSection3 = () => riddles.reduce((sum, r, i) => riddleAnswers[i] === r.correctIndex ? sum + r.points : sum, 0);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (submitted) return;
     setSubmitted(true);
     const s1 = calcSection1();
@@ -63,7 +65,9 @@ export default function Zone2CarbonQuest() {
     dispatch({ type: 'COMPLETE_ZONE', zone: 'zone2' });
     dispatch({ type: 'SUBMIT_TO_LEADERBOARD' });
     setSection('results');
-  }, [submitted, initialAnswers, optimizedAnswers, selectedUpgrades, riddleAnswers]);
+    // Sync to Convex backend
+    await syncZoneScore(state.teamId, state.teamName || state.teamId, 'zone2', total);
+  }, [submitted, initialAnswers, optimizedAnswers, selectedUpgrades, riddleAnswers, state.teamId, state.teamName, dispatch, syncZoneScore]);
 
   const sectionIdx = { lifestyle: 1, optimize: 1, campus: 2, riddles: 3, results: 3 }[section];
 
@@ -104,7 +108,7 @@ export default function Zone2CarbonQuest() {
               </div>
             </div>
           ))}
-          <p className="font-mono text-sm text-leaf">Current footprint score: {initialTotal} / 40</p>
+          <p className="font-mono text-sm text-ink-muted">{Object.keys(initialAnswers).length} of {lifestyleQuestions.length} answered</p>
           <button disabled={!allInitialAnswered} onClick={() => { setOptimizedAnswers({ ...initialAnswers }); setSection('optimize'); }}
             className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full disabled:opacity-40">Next: Optimize →</button>
         </div>
@@ -129,7 +133,7 @@ export default function Zone2CarbonQuest() {
               </div>
             </div>
           ))}
-          <p className="font-mono text-sm text-leaf">Carbon Reduction: -{reduction > 0 ? reduction : 0} pts</p>
+          <p className="font-mono text-sm text-ink-muted">{Object.keys(optimizedAnswers).length} of {lifestyleQuestions.length} answered</p>
           <button onClick={() => setSection('campus')} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full">Next: Campus Upgrade →</button>
         </div>
       )}
