@@ -96,7 +96,7 @@ export default function HeroLanding() {
               </button>
             ))}
             <button
-              onClick={() => handleNav('/quest')}
+              onClick={() => handleNav('/entry')}
               className="liquid-glass rounded-full px-10 py-4 text-base text-white mt-4 hover:scale-[1.03] transition-transform"
               style={{ fontFamily: "'Inter', var(--font-body)" }}
             >
