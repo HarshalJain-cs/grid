@@ -10,7 +10,7 @@ interface VolunteerPanelProps {
   showGuesses?: boolean;
 }
 
-const PIN = '2604';
+const PIN = 'ieeecs26';
 
 export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses, showGuesses }: VolunteerPanelProps) {
   const [pin, setPin] = useState('');

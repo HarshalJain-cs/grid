@@ -5,7 +5,7 @@ import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { Users, Shield, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
-const VOLUNTEER_PIN = '2604';
+const VOLUNTEER_PIN = 'ieeecs26';
 
 export default function EntryGate() {
   const navigate = useNavigate();

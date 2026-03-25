@@ -50,7 +50,7 @@ export default function Leaderboard() {
   const lookupEntry = leaderboard.find(e => e.teamId.toLowerCase() === lookupId.toLowerCase());
 
   const handleAdminUnlock = () => {
-    if (adminPin === '2604') setAdminUnlocked(true);
+    if (adminPin === 'ieeecs26') setAdminUnlocked(true);
     else toast.error('Incorrect PIN');
   };
 
