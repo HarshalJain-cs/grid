@@ -37,7 +37,7 @@ export default function OrganizerSection() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-4">YOUR ORGANIZER</p>
           <h2 className="font-display text-4xl md:text-5xl text-ink mb-6">Meet the team behind GridQuest.</h2>
           <p className="font-body text-base text-ink-muted leading-relaxed mb-4">
-            GridQuest is organized by the Energy Club at BMS College of Engineering — a student-led initiative bringing together future engineers, designers, and changemakers passionate about sustainable technology.
+            GridQuest is organized by the Energy Club at BMSCE — a student-led initiative bringing together future engineers, designers, and changemakers passionate about sustainable technology.
           </p>
           <div className="flex flex-wrap gap-2 mt-6">
             {['Sustainability', 'Energy Systems', 'Climate Policy', 'Team Strategy', 'Design Thinking'].map(tag => (
