@@ -1,17 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGame } from '@/store/gameStore';
-import { useNavigate } from 'react-router-dom';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { toast } from 'sonner';
 
-const SEED_TEAMS = [
-  { teamId: 'alpha', teamName: 'Team Alpha', zone1: 85, zone2: 90, zone3: 80, zone4: 95, trivia: 75, total: 425, timestamp: 1 },
-  { teamId: 'beta', teamName: 'Team Beta', zone1: 70, zone2: 65, zone3: 90, zone4: 60, trivia: 80, total: 365, timestamp: 2 },
-  { teamId: 'gamma', teamName: 'Team Gamma', zone1: 55, zone2: 75, zone3: 60, zone4: 50, trivia: 65, total: 305, timestamp: 3 },
-];
-
 export default function Leaderboard() {
-  const { state, dispatch } = useGame();
-  const navigate = useNavigate();
+  const { state } = useGame();
+  const { leaderboard, isLoading, upsertEntry, updateEntry, deleteEntry, resetLeaderboard } = useConvexLeaderboard();
   const [lookupId, setLookupId] = useState('');
   const [adminPin, setAdminPin] = useState('');
   const [adminUnlocked, setAdminUnlocked] = useState(false);
@@ -19,16 +13,9 @@ export default function Leaderboard() {
   const [editData, setEditData] = useState({ teamName: '', zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0 });
   const [newTeam, setNewTeam] = useState({ teamId: '', teamName: '' });
 
-  // Seed demo teams if leaderboard is empty
-  useEffect(() => {
-    if (state.leaderboard.length === 0) {
-      SEED_TEAMS.forEach(t => dispatch({ type: 'ADD_TEAM', entry: t }));
-    }
-  }, []);
-
-  const sorted = [...state.leaderboard].sort((a, b) => b.total - a.total);
+  const sorted = [...leaderboard].sort((a, b) => b.total - a.total);
   const top3 = sorted.slice(0, 3);
-  const lookupEntry = state.leaderboard.find(e => e.teamId.toLowerCase() === lookupId.toLowerCase());
+  const lookupEntry = leaderboard.find(e => e.teamId.toLowerCase() === lookupId.toLowerCase());
 
   const handleAdminUnlock = () => {
     if (adminPin === '2604') setAdminUnlocked(true);
@@ -36,26 +23,26 @@ export default function Leaderboard() {
   };
 
   const startEdit = (teamId: string) => {
-    const e = state.leaderboard.find(x => x.teamId === teamId);
+    const e = leaderboard.find(x => x.teamId === teamId);
     if (!e) return;
     setEditData({ teamName: e.teamName, zone1: e.zone1, zone2: e.zone2, zone3: e.zone3, zone4: e.zone4, trivia: e.trivia });
     setEditingTeam(teamId);
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (!editingTeam) return;
-    dispatch({ type: 'UPDATE_TEAM', teamId: editingTeam, data: editData });
+    await updateEntry(editingTeam, editData);
     setEditingTeam(null);
     toast.success('Team updated');
   };
 
-  const addTeam = () => {
+  const addTeam = async () => {
     if (!newTeam.teamId.trim()) return;
-    dispatch({
-      type: 'ADD_TEAM', entry: {
-        teamId: newTeam.teamId.trim(), teamName: newTeam.teamName || newTeam.teamId.trim(),
-        zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0, total: 0, timestamp: Date.now()
-      }
+    await upsertEntry({
+      teamId: newTeam.teamId.trim(),
+      teamName: newTeam.teamName || newTeam.teamId.trim(),
+      zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0, total: 0,
+      timestamp: Date.now(),
     });
     setNewTeam({ teamId: '', teamName: '' });
     toast.success('Team added');
@@ -68,6 +55,14 @@ export default function Leaderboard() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = 'gridquest_leaderboard.csv'; a.click();
   };
+
+  if (isLoading) {
+    return (
+      <div className="pt-20 pb-12 px-4 text-center">
+        <p className="font-body text-ink-muted">Loading leaderboard…</p>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-4xl mx-auto">
@@ -196,7 +191,7 @@ export default function Leaderboard() {
 
             <div className="space-y-2">
               <p className="font-mono text-[11px] text-ink-muted uppercase">Manage Teams</p>
-              {state.leaderboard.map(e => (
+              {leaderboard.map(e => (
                 <div key={e.teamId} className="border border-cream-border rounded-xl p-3">
                   {editingTeam === e.teamId ? (
                     <div className="space-y-2">
@@ -221,7 +216,7 @@ export default function Leaderboard() {
                       <span className="font-body text-sm text-ink truncate">{e.teamName} ({e.teamId}) — {e.total} pts</span>
                       <div className="flex gap-1 shrink-0">
                         <button onClick={() => startEdit(e.teamId)} className="font-mono text-xs text-leaf hover:underline min-h-[44px] px-2">Edit</button>
-                        <button onClick={() => { dispatch({ type: 'DELETE_TEAM', teamId: e.teamId }); toast.success('Deleted'); }} className="font-mono text-xs text-red-500 hover:underline min-h-[44px] px-2">Delete</button>
+                        <button onClick={async () => { await deleteEntry(e.teamId); toast.success('Deleted'); }} className="font-mono text-xs text-red-500 hover:underline min-h-[44px] px-2">Delete</button>
                       </div>
                     </div>
                   )}
@@ -230,7 +225,7 @@ export default function Leaderboard() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button onClick={() => { if (confirm('Reset all leaderboard data?')) { dispatch({ type: 'RESET_LEADERBOARD' }); toast.success('Leaderboard reset'); } }}
+              <button onClick={async () => { if (confirm('Reset all leaderboard data?')) { await resetLeaderboard(); toast.success('Leaderboard reset'); } }}
                 className="border border-red-300 text-red-500 font-mono text-xs px-4 py-3 rounded-full hover:bg-red-50 min-h-[48px]">Reset Leaderboard</button>
               <button onClick={exportCSV} className="border border-leaf/50 text-leaf font-mono text-xs px-4 py-3 rounded-full hover:bg-leaf-bg min-h-[48px]">Export CSV</button>
             </div>

@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GameProvider } from "@/store/gameStore";
+import { ConvexClientProvider } from "@/lib/convex";
 import { AnimatePresence, motion } from "framer-motion";
 import LandingPage from "./pages/LandingPage";
 import Zone1PowerPuzzle from "./pages/zones/Zone1PowerPuzzle";
@@ -44,16 +45,18 @@ function AnimatedRoutes() {
 }
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <GameProvider>
-      <TooltipProvider>
-        <Sonner />
-        <HashRouter>
-          <AnimatedRoutes />
-        </HashRouter>
-      </TooltipProvider>
-    </GameProvider>
-  </QueryClientProvider>
+  <ConvexClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <GameProvider>
+        <TooltipProvider>
+          <Sonner />
+          <HashRouter>
+            <AnimatedRoutes />
+          </HashRouter>
+        </TooltipProvider>
+      </GameProvider>
+    </QueryClientProvider>
+  </ConvexClientProvider>
 );
 
 export default App;

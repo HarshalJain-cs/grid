@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": true,
+    "target": "ESNext",
+    "lib": ["ES2021", "ES2022.Object", "DOM"],
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "../node_modules/.convex-build",
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "../node_modules/.convex-build/server/index.d.ts"],
+  "exclude": ["../node_modules/.convex-build"]
+}

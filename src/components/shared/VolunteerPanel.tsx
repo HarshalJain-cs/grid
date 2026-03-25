@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGame } from '@/store/gameStore';
+import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { toast } from 'sonner';
 
 interface VolunteerPanelProps {
@@ -19,6 +20,7 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
   const [guesses, setGuesses] = useState(0);
   const [notes, setNotes] = useState('');
   const { dispatch } = useGame();
+  const { leaderboard, upsertEntry } = useConvexLeaderboard();
 
   const handleUnlock = () => {
     if (pin === PIN) setUnlocked(true);
@@ -27,13 +29,39 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
 
   const computedScore = showGuesses && scoreFromGuesses ? scoreFromGuesses(guesses) : score;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!vTeamId.trim()) { toast.error('Enter a Team ID'); return; }
-    dispatch({ type: 'SET_TEAM_ID', teamId: vTeamId.trim() });
+    const teamId = vTeamId.trim();
+
+    // Update local state
+    dispatch({ type: 'SET_TEAM_ID', teamId });
     dispatch({ type: 'SET_ZONE_SCORE', zone, score: computedScore });
     dispatch({ type: 'COMPLETE_ZONE', zone });
-    dispatch({ type: 'SUBMIT_TO_LEADERBOARD' });
-    toast.success(`Score ${computedScore} saved for Team ${vTeamId.trim()} in ${zone}`);
+
+    // Find existing entry or create new one
+    const existing = leaderboard.find(e => e.teamId === teamId);
+    const entry = {
+      teamId,
+      teamName: existing?.teamName || teamId,
+      zone1: existing?.zone1 ?? 0,
+      zone2: existing?.zone2 ?? 0,
+      zone3: existing?.zone3 ?? 0,
+      zone4: existing?.zone4 ?? 0,
+      trivia: existing?.trivia ?? 0,
+      total: 0,
+      timestamp: Date.now(),
+    };
+
+    // Update the zone score
+    if (zone === 'trivia') {
+      entry.trivia = computedScore;
+    } else {
+      entry[zone] = computedScore;
+    }
+    entry.total = Math.min(entry.zone1 + entry.zone2 + entry.zone3 + entry.zone4 + entry.trivia, 500);
+
+    await upsertEntry(entry);
+    toast.success(`Score ${computedScore} saved for Team ${teamId} in ${zone}`);
     setVTeamId('');
     setScore(0);
     setGuesses(0);
