@@ -149,3 +149,8 @@
 .animate-fade-rise-4 { animation: fade-rise 0.7s ease-out 0.45s both; }
 .animate-ticker { animation: ticker 22s linear infinite; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Hero landing page scoped background */
+.hero-landing {
+  background: hsl(201 100% 13%);
+}
