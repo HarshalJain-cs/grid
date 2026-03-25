@@ -3,7 +3,6 @@ import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
 import ZoneTransition from '@/components/shared/ZoneTransition';
 import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/data/zone2Data';
-import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/data/zone2Data';
 
 type Section = 'lifestyle' | 'optimize' | 'campus' | 'riddles' | 'results';
 
