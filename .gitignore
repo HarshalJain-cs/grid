@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# IDE/tool configs
+.agents/
+.claude/
+.codebuddy/
+.continue/
+.kiro/
+.qoder/
+.roo/
+.trae/
+nul
+skills-lock.json
