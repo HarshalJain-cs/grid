@@ -97,6 +97,24 @@ export default function Leaderboard() {
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-4xl mx-auto">
+      {/* Live update indicator */}
+      <AnimatePresence>
+        {lastUpdate && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-leaf text-white font-mono text-xs px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+            </span>
+            {lastUpdate.teamName} just updated!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <h1 className="font-display text-3xl md:text-5xl text-ink text-center mb-6">Leaderboard</h1>
 
       {/* Team Lookup */}
