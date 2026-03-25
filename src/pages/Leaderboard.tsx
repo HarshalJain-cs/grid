@@ -45,7 +45,10 @@ export default function Leaderboard() {
     return () => clearTimeout(timer);
   }, [lastUpdate]);
 
-  const handleAdminUnlock = () => {
+  const sorted = [...leaderboard].sort((a, b) => b.total - a.total);
+  const top3 = sorted.slice(0, 3);
+  const lookupEntry = leaderboard.find(e => e.teamId.toLowerCase() === lookupId.toLowerCase());
+
     if (adminPin === '2604') setAdminUnlocked(true);
     else toast.error('Incorrect PIN');
   };
