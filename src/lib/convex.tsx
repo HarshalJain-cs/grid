@@ -1,7 +1,7 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import type { ReactNode } from "react";
 
-const convex = new ConvexReactClient("https://scrupulous-civet-86.convex.cloud");
+const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
   return <ConvexProvider client={convex}>{children}</ConvexProvider>;
