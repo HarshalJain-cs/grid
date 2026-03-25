@@ -44,7 +44,7 @@ export default function LandingNav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/zone1')} className="hidden sm:inline-flex bg-leaf text-white font-body text-sm font-medium px-5 py-2 rounded-full hover:bg-leaf/90 transition-colors">
+          <button onClick={() => navigate('/trivia')} className="hidden sm:inline-flex bg-leaf text-white font-body text-sm font-medium px-5 py-2 rounded-full hover:bg-leaf/90 transition-colors">
             Enter the Quest →
           </button>
           <button className="md:hidden" onClick={() => setOpen(!open)}>
@@ -60,7 +60,7 @@ export default function LandingNav() {
               {l.label}
             </button>
           ))}
-          <button onClick={() => { setOpen(false); navigate('/zone1'); }} className="bg-leaf text-white font-body text-base font-medium px-8 py-3 rounded-full mt-4">
+          <button onClick={() => { setOpen(false); navigate('/trivia'); }} className="bg-leaf text-white font-body text-base font-medium px-8 py-3 rounded-full mt-4 min-h-[48px]">
             Enter the Quest →
           </button>
         </div>
