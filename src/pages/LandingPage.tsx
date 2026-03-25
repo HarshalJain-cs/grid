@@ -13,34 +13,34 @@ import ScrollReveal from '@/components/shared/ScrollReveal';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-cream text-ink">
+    <div className="min-h-screen bg-cream text-ink overflow-x-hidden">
       <LandingNav />
-      <ScrollReveal>
+      <ScrollReveal duration={0.8}>
         <HeroSection />
       </ScrollReveal>
-      <ScrollReveal delay={80}>
+      <ScrollReveal delay={100} direction="up">
         <PullQuoteSection />
       </ScrollReveal>
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={80} direction="left">
         <OrganizerSection />
       </ScrollReveal>
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={60} direction="up">
         <WhatYoullTackle />
       </ScrollReveal>
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={80} direction="right">
         <ZoneBreakdown />
       </ScrollReveal>
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={60} direction="up">
         <TestimonialsSection />
       </ScrollReveal>
       <TickerBar />
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={80} direction="up">
         <FAQSection />
       </ScrollReveal>
-      <ScrollReveal delay={60}>
+      <ScrollReveal delay={100} direction="up">
         <RegistrationSection />
       </ScrollReveal>
-      <ScrollReveal>
+      <ScrollReveal delay={60} direction="up" distance={20}>
         <LandingFooter />
       </ScrollReveal>
     </div>
