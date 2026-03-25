@@ -37,12 +37,12 @@ export default function TimerBar({ durationSeconds = 300, onExpire, paused = fal
 
   return (
     <div className="flex items-center gap-3">
-      <span className={`font-mono text-2xl font-bold ${isDanger ? 'text-red-400 animate-pulse' : isWarning ? 'text-yellow-400' : 'text-zone-accent'}`}>
+      <span className={`font-mono text-2xl font-bold ${isDanger ? 'text-red-600 animate-pulse' : isWarning ? 'text-amber-600' : 'text-leaf'}`}>
         {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
       </span>
-      <div className="flex-1 h-1.5 bg-zone-muted/20 rounded-full overflow-hidden">
+      <div className="flex-1 h-1.5 bg-cream-border rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-1000 ${isDanger ? 'bg-red-400' : isWarning ? 'bg-yellow-400' : 'bg-zone-accent'}`}
+          className={`h-full rounded-full transition-all duration-1000 ${isDanger ? 'bg-red-500' : isWarning ? 'bg-amber-500' : 'bg-leaf'}`}
           style={{ width: `${pct}%` }}
         />
       </div>

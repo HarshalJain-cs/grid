@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 
 function ZoneShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen" style={{ background: 'hsl(var(--z-bg))', color: 'hsl(var(--z-fg))' }}>
+    <div className="min-h-screen bg-cream text-ink">
       <ZoneNav />
       {children}
     </div>
@@ -31,11 +31,11 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/zone1" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone1PowerPuzzle /></motion.div></ZoneShell>} />
+        <Route path="/trivia" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><TechTrivia /></motion.div></ZoneShell>} />
         <Route path="/zone2" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone2CarbonQuest /></motion.div></ZoneShell>} />
         <Route path="/zone3" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone3ClimateDecision /></motion.div></ZoneShell>} />
+        <Route path="/zone1" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone1PowerPuzzle /></motion.div></ZoneShell>} />
         <Route path="/zone4" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone4GreenSketch /></motion.div></ZoneShell>} />
-        <Route path="/trivia" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><TechTrivia /></motion.div></ZoneShell>} />
         <Route path="/leaderboard" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Leaderboard /></motion.div></ZoneShell>} />
         <Route path="*" element={<NotFound />} />
       </Routes>

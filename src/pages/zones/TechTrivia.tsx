@@ -35,7 +35,6 @@ export default function TechTrivia() {
         setSelected(null);
         setShowFeedback(false);
       } else {
-        // Will finish with updated correctCount via the effect
         setFinished(true);
       }
     }, 1500);
@@ -56,12 +55,12 @@ export default function TechTrivia() {
   if (finished) {
     return (
       <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto text-center">
-        <h2 className="font-display text-4xl text-zone-fg mb-4">Tech Trivia Complete!</h2>
-        <p className="font-mono text-5xl text-zone-accent font-bold mb-2">{score}/100</p>
-        <p className="font-display text-2xl text-zone-fg mb-8">{tier}</p>
-        <p className="font-body text-sm text-zone-muted mb-8">{correctCount} of {triviaQuestions.length} correct</p>
-        <button onClick={() => navigate('/leaderboard')} className="bg-zone-accent text-zone-bg font-body font-medium px-8 py-3 rounded-full">
-          View Leaderboard →
+        <h2 className="font-display text-4xl text-ink mb-4">Tech Trivia Complete!</h2>
+        <p className="font-mono text-5xl text-leaf font-bold mb-2">{score}/100</p>
+        <p className="font-display text-2xl text-ink mb-8">{tier}</p>
+        <p className="font-body text-sm text-ink-muted mb-8">{correctCount} of {triviaQuestions.length} correct</p>
+        <button onClick={() => navigate('/zone2')} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">
+          Next: Zone 2 →
         </button>
       </div>
     );
@@ -73,8 +72,8 @@ export default function TechTrivia() {
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <p className="font-mono text-[11px] text-zone-muted uppercase tracking-widest">Tech Trivia</p>
-          <h1 className="font-display text-4xl text-zone-fg">Quick Fire</h1>
+          <p className="font-mono text-[11px] text-ink-muted uppercase tracking-widest">Tech Trivia</p>
+          <h1 className="font-display text-4xl text-ink">Quick Fire</h1>
         </div>
       </div>
 
@@ -82,26 +81,26 @@ export default function TechTrivia() {
 
       <div className="mt-4 mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="font-mono text-[11px] text-zone-muted">Question {currentQ + 1} of {triviaQuestions.length}</span>
-          <span className="font-mono text-[11px] text-zone-accent">{correctCount} correct</span>
+          <span className="font-mono text-[11px] text-ink-muted">Question {currentQ + 1} of {triviaQuestions.length}</span>
+          <span className="font-mono text-[11px] text-leaf">{correctCount} correct</span>
         </div>
-        <div className="h-1.5 bg-zone-muted/20 rounded-full overflow-hidden">
-          <div className="h-full bg-zone-accent rounded-full transition-all" style={{ width: `${((currentQ + 1) / triviaQuestions.length) * 100}%` }} />
+        <div className="h-1.5 bg-cream-border rounded-full overflow-hidden">
+          <div className="h-full bg-leaf rounded-full transition-all" style={{ width: `${((currentQ + 1) / triviaQuestions.length) * 100}%` }} />
         </div>
       </div>
 
-      <div className="border border-zone-accent/20 rounded-2xl p-6 bg-zone-bg2/50 mb-6">
-        <p className="font-body text-lg text-zone-fg">{q.question}</p>
+      <div className="border border-cream-border rounded-2xl p-6 bg-white mb-6">
+        <p className="font-body text-lg text-ink">{q.question}</p>
       </div>
 
       <div className="space-y-3">
         {q.options.map((opt, j) => {
-          let cls = 'border-zone-accent/20 text-zone-fg hover:border-zone-accent/50';
+          let cls = 'border-cream-border text-ink hover:border-leaf/50 bg-white';
           if (showFeedback) {
-            if (j === q.correctIndex) cls = 'bg-green-500/20 border-green-500 text-green-300';
-            else if (j === selected) cls = 'bg-red-500/20 border-red-500 text-red-300';
+            if (j === q.correctIndex) cls = 'bg-green-50 border-green-500 text-green-800';
+            else if (j === selected) cls = 'bg-red-50 border-red-500 text-red-800';
           } else if (selected === j) {
-            cls = 'bg-zone-accent/10 border-zone-accent';
+            cls = 'bg-leaf-bg border-leaf text-ink';
           }
           return (
             <button key={j} onClick={() => handleSelect(j)} disabled={showFeedback}
