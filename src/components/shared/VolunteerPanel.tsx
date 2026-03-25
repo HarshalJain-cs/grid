@@ -22,9 +22,11 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
   const [pin, setPin] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [vTeamId, setVTeamId] = useState('');
+  const [vTeamName, setVTeamName] = useState('');
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
   const [notes, setNotes] = useState('');
+  const [saving, setSaving] = useState(false);
   const { dispatch } = useGame();
   const { leaderboard, syncZoneScore } = useConvexLeaderboard();
 
@@ -37,20 +39,32 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
 
   const handleSave = async () => {
     if (!vTeamId.trim()) { toast.error('Enter a Team ID'); return; }
+    const finalScore = Number(computedScore);
+    if (isNaN(finalScore) || finalScore < 0) { toast.error('Enter a valid score'); return; }
+    if (saving) return;
+    setSaving(true);
     const teamId = vTeamId.trim();
+    const teamName = vTeamName.trim() || teamId;
 
-    // Update local state
-    dispatch({ type: 'SET_TEAM_ID', teamId });
-    dispatch({ type: 'SET_ZONE_SCORE', zone, score: computedScore });
-    dispatch({ type: 'COMPLETE_ZONE', zone });
+    try {
+      // Sync to Convex backend
+      await syncZoneScore(teamId, teamName, zone, finalScore);
 
-    // Sync to Convex backend
-    await syncZoneScore(teamId, teamId, zone, computedScore);
-    toast.success(`Score ${computedScore} saved for Team ${teamId} in ${zone}`);
-    setVTeamId('');
-    setScore(0);
-    setGuesses(0);
-    setNotes('');
+      // Update local state only after successful save
+      dispatch({ type: 'SET_ZONE_SCORE', zone, score: finalScore });
+
+      toast.success(`Score ${finalScore} saved for Team ${teamId} in ${zone}`);
+      setVTeamId('');
+      setVTeamName('');
+      setScore(0);
+      setGuesses(0);
+      setNotes('');
+    } catch (err) {
+      console.error('Failed to save score to Convex:', err);
+      toast.error(`Failed to save: ${err instanceof Error ? err.message : 'Check console for details'}`);
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Get teams that already have a score for this zone
@@ -87,10 +101,16 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
 
       {/* Score entry form */}
       <div>
-        <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID</label>
+        <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID *</label>
         <input type="number" inputMode="numeric" value={vTeamId} onChange={e => setVTeamId(e.target.value.replace(/\D/g, ''))}
           placeholder="e.g. 1"
           className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+      </div>
+      <div>
+        <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team Name (optional)</label>
+        <input value={vTeamName} onChange={e => setVTeamName(e.target.value)}
+          placeholder="e.g. Green Warriors"
+          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
       </div>
       {showGuesses ? (
         <div>
@@ -111,8 +131,8 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
         <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2}
           className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
       </div>
-      <button onClick={handleSave} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors">
-        Save Score
+      <button onClick={handleSave} disabled={saving} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors disabled:opacity-50">
+        {saving ? 'Saving...' : 'Save Score'}
       </button>
 
       {/* Scored teams list */}
