@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,50 +6,52 @@
 
 @layer base {
   :root {
-    /* Landing page (light, FastCourse-style) */
-    --lp-bg: 78 33% 96%;
-    --lp-bg-alt: 60 11% 92%;
-    --lp-fg: 60 4% 7%;
-    --lp-fg-muted: 60 3% 41%;
-    --lp-border: 60 5% 84%;
-    --lp-accent: 96 66% 36%;
-    --lp-accent-light: 93 66% 59%;
-    --lp-accent-bg: 90 52% 92%;
+    /* Landing page — cinematic dark navy */
+    --lp-bg: 201 100% 13%;
+    --lp-bg-alt: 0 0% 10%;
+    --lp-fg: 0 0% 100%;
+    --lp-fg-muted: 240 4% 66%;
+    --lp-border: 0 0% 18%;
+    --lp-accent: 0 0% 100%;
+    --lp-accent-light: 0 0% 90%;
+    --lp-accent-bg: 0 0% 10%;
 
-    /* Zone/quiz pages (dark, immersive) */
-    --z-bg: 150 33% 5%;
-    --z-bg2: 150 28% 9%;
-    --z-fg: 100 33% 94%;
-    --z-muted: 110 22% 54%;
-    --z-accent: 93 66% 59%;
-    --z-border: 93 66% 59%;
+    /* Zone/quiz pages (cream editorial) */
+    --z-bg: 78 33% 96%;
+    --z-bg-alt: 60 11% 92%;
+    --z-fg: 60 4% 7%;
+    --z-muted: 60 3% 41%;
+    --z-accent: 96 66% 36%;
+    --z-accent-light: 93 66% 59%;
+    --z-accent-bg: 90 52% 92%;
+    --z-border: 60 5% 84%;
     --z-card: 0 0% 100%;
 
     /* Shared fonts */
     --font-display: 'Instrument Serif', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
     --font-mono: 'Space Mono', monospace;
 
-    /* shadcn defaults mapped */
-    --background: 78 33% 96%;
-    --foreground: 60 4% 7%;
-    --card: 0 0% 100%;
-    --card-foreground: 60 4% 7%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 60 4% 7%;
-    --primary: 96 66% 36%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 60 11% 92%;
-    --secondary-foreground: 60 4% 7%;
-    --muted: 60 11% 92%;
-    --muted-foreground: 60 3% 41%;
-    --accent: 90 52% 92%;
-    --accent-foreground: 60 4% 7%;
+    /* shadcn defaults — dark cinematic */
+    --background: 201 100% 13%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 240 4% 66%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 60 5% 84%;
-    --input: 60 5% 84%;
-    --ring: 96 66% 36%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 100%;
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
@@ -60,28 +62,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 150 33% 5%;
-    --foreground: 100 33% 94%;
-    --card: 150 28% 9%;
-    --card-foreground: 100 33% 94%;
-    --popover: 150 28% 9%;
-    --popover-foreground: 100 33% 94%;
-    --primary: 93 66% 59%;
-    --primary-foreground: 150 33% 5%;
-    --secondary: 150 28% 9%;
-    --secondary-foreground: 100 33% 94%;
-    --muted: 150 28% 9%;
-    --muted-foreground: 110 22% 54%;
-    --accent: 150 28% 9%;
-    --accent-foreground: 100 33% 94%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 93 66% 59%;
-    --input: 93 66% 59%;
-    --ring: 93 66% 59%;
   }
 }
 
@@ -98,8 +78,10 @@
 /* Liquid glass effect */
 .liquid-glass {
   background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  border: none;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -127,7 +109,7 @@
 
 /* Keyframes */
 @keyframes fade-rise {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes ticker {
@@ -135,15 +117,13 @@
   to { transform: translateX(-50%); }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 224, 99, 0); }
-  50% { box-shadow: 0 0 0 8px rgba(168, 224, 99, 0.15); }
-}
-@keyframes count-up {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.08); }
 }
 
-.animate-fade-rise { animation: fade-rise 0.7s ease-out both; }
+.animate-fade-rise { animation: fade-rise 0.8s ease-out both; }
+.animate-fade-rise-delay { animation: fade-rise 0.8s ease-out 0.2s both; }
+.animate-fade-rise-delay-2 { animation: fade-rise 0.8s ease-out 0.4s both; }
 .animate-fade-rise-2 { animation: fade-rise 0.7s ease-out 0.15s both; }
 .animate-fade-rise-3 { animation: fade-rise 0.7s ease-out 0.3s both; }
 .animate-fade-rise-4 { animation: fade-rise 0.7s ease-out 0.45s both; }
