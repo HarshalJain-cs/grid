@@ -32,7 +32,8 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<HeroLanding />} />
+        <Route path="/quest" element={<LandingPage />} />
         <Route path="/trivia" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><TechTrivia /></motion.div></ZoneShell>} />
         <Route path="/zone2" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone2CarbonQuest /></motion.div></ZoneShell>} />
         <Route path="/zone3" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone3ClimateDecision /></motion.div></ZoneShell>} />
