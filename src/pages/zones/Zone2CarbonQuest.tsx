@@ -8,7 +8,6 @@ import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/dat
 type Section = 'lifestyle' | 'optimize' | 'campus' | 'riddles' | 'results';
 
 export default function Zone2CarbonQuest() {
-  const navigate = useNavigate();
   const { dispatch } = useGame();
   const [section, setSection] = useState<Section>('lifestyle');
   const [initialAnswers, setInitialAnswers] = useState<Record<string, number>>({});

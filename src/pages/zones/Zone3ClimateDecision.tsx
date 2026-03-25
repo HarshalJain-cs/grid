@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
+import ZoneTransition from '@/components/shared/ZoneTransition';
 import { climateScenarios } from '@/data/zone3Data';
 
 export default function Zone3ClimateDecision() {
