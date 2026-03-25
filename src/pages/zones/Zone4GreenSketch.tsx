@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VolunteerPanel from '@/components/shared/VolunteerPanel';
 import { greenSketchWords } from '@/data/zone4Words';
-import { Timer, Pencil, Ban, Hand } from 'lucide-react';
+import { Timer, Pencil, Ban, Hand, Lock } from 'lucide-react';
 
 function scoreFromGuesses(guesses: number): number {
   if (guesses >= 10) return 100;
@@ -12,9 +12,13 @@ function scoreFromGuesses(guesses: number): number {
   return 0;
 }
 
+const WORDS_PIN = 'ieeecs4';
+
 export default function Zone4GreenSketch() {
   const [revealed, setRevealed] = useState(false);
   const [usedWords, setUsedWords] = useState<Set<string>>(new Set());
+  const [wordsPin, setWordsPin] = useState('');
+  const [wordsUnlocked, setWordsUnlocked] = useState(false);
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto">
@@ -101,7 +105,32 @@ export default function Zone4GreenSketch() {
         </TabsContent>
 
         <TabsContent value="words" className="mt-6">
-          {!revealed ? (
+          {!wordsUnlocked ? (
+            <div className="max-w-sm mx-auto text-center py-12">
+              <div className="w-16 h-16 rounded-full bg-cream-alt border border-cream-border flex items-center justify-center mx-auto mb-4">
+                <Lock size={24} className="text-ink-muted" />
+              </div>
+              <h3 className="font-display text-xl text-ink mb-2">Word Cards Locked</h3>
+              <p className="font-body text-sm text-ink-muted mb-6">Ask your volunteer to enter the PIN to reveal the word cards.</p>
+              <input
+                type="password"
+                value={wordsPin}
+                onChange={e => setWordsPin(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && wordsPin === WORDS_PIN && setWordsUnlocked(true)}
+                placeholder="Enter PIN"
+                className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4"
+              />
+              <button
+                onClick={() => wordsPin === WORDS_PIN ? setWordsUnlocked(true) : null}
+                className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full hover:bg-leaf/90 transition-colors"
+              >
+                Unlock Words
+              </button>
+              {wordsPin.length > 0 && wordsPin !== WORDS_PIN && (
+                <p className="font-mono text-xs text-red-500 mt-2">Incorrect PIN — ask your volunteer</p>
+              )}
+            </div>
+          ) : !revealed ? (
             <div className="text-center py-12">
               <button onClick={() => setRevealed(true)} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">
                 Reveal Words
