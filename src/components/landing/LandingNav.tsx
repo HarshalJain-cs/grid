@@ -32,7 +32,7 @@ export default function LandingNav() {
       <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 h-16">
         <div className="flex items-center gap-3">
           <span className="font-display text-2xl text-ink">Grid<span className="text-leaf">Quest</span></span>
-          <span className="hidden sm:inline font-mono text-[11px] text-ink-muted bg-cream-alt px-2 py-0.5 rounded-full">BMS CE · 2026</span>
+          <span className="hidden sm:inline font-mono text-[11px] text-ink-muted bg-cream-alt px-2 py-0.5 rounded-full">BMSCE · 2026</span>
         </div>
 
         <div className="hidden md:flex items-center gap-8">
