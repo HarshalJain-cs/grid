@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { GameProvider } from "@/store/gameStore";
 import { ConvexClientProvider } from "@/lib/convex";
 import { AnimatePresence, motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import HeroLanding from "./pages/HeroLanding";
 import LandingPage from "./pages/LandingPage";
 import EntryGate from "./pages/EntryGate";
@@ -56,6 +57,7 @@ const App = () => (
       <GameProvider>
         <TooltipProvider>
           <Sonner />
+          <Analytics />
           <HashRouter>
             <AnimatedRoutes />
           </HashRouter>
