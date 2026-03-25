@@ -11,7 +11,7 @@ export default function RegistrationSection() {
   const handleSubmit = () => {
     if (!teamId.trim()) return;
     dispatch({ type: 'SET_TEAM_ID', teamId: teamId.trim() });
-    navigate('/zone1');
+    navigate('/trivia');
   };
 
   const features = [
