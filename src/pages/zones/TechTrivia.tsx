@@ -6,7 +6,6 @@ import { triviaQuestions } from '@/data/techTrivia';
 import { triviaQuestions } from '@/data/techTrivia';
 
 export default function TechTrivia() {
-  const navigate = useNavigate();
   const { dispatch } = useGame();
   const [currentQ, setCurrentQ] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
