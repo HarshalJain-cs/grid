@@ -18,7 +18,7 @@ export default function ZoneNav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-3 md:px-6 bg-cream border-b border-cream-border">
-      <button onClick={() => navigate('/')} className="text-ink-muted hover:text-ink transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2">
+      <button onClick={() => navigate('/quest')} className="text-ink-muted hover:text-ink transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2">
         <ArrowLeft size={20} />
       </button>
       <span className="font-display text-lg text-leaf ml-1">GridQuest</span>
