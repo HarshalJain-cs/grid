@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/store/gameStore';
 import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Leaderboard() {
   const { state } = useGame();
@@ -12,12 +13,42 @@ export default function Leaderboard() {
   const [editingTeam, setEditingTeam] = useState<string | null>(null);
   const [editData, setEditData] = useState({ teamName: '', zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0 });
   const [newTeam, setNewTeam] = useState({ teamId: '', teamName: '' });
+  const [lastUpdate, setLastUpdate] = useState<{ teamName: string; timestamp: number } | null>(null);
+  const prevLeaderboardRef = useRef<typeof leaderboard>([]);
+
+  // Detect real-time changes
+  useEffect(() => {
+    const prev = prevLeaderboardRef.current;
+    if (prev.length > 0 && leaderboard.length > 0) {
+      // Check for new teams
+      const newTeams = leaderboard.filter(e => !prev.find(p => p.teamId === e.teamId));
+      if (newTeams.length > 0) {
+        setLastUpdate({ teamName: newTeams[0].teamName, timestamp: Date.now() });
+      } else {
+        // Check for score changes
+        for (const entry of leaderboard) {
+          const old = prev.find(p => p.teamId === entry.teamId);
+          if (old && old.total !== entry.total) {
+            setLastUpdate({ teamName: entry.teamName, timestamp: Date.now() });
+            break;
+          }
+        }
+      }
+    }
+    prevLeaderboardRef.current = leaderboard;
+  }, [leaderboard]);
+
+  // Auto-dismiss update indicator after 5s
+  useEffect(() => {
+    if (!lastUpdate) return;
+    const timer = setTimeout(() => setLastUpdate(null), 5000);
+    return () => clearTimeout(timer);
+  }, [lastUpdate]);
 
   const sorted = [...leaderboard].sort((a, b) => b.total - a.total);
   const top3 = sorted.slice(0, 3);
   const lookupEntry = leaderboard.find(e => e.teamId.toLowerCase() === lookupId.toLowerCase());
 
-  const handleAdminUnlock = () => {
     if (adminPin === '2604') setAdminUnlocked(true);
     else toast.error('Incorrect PIN');
   };
@@ -66,6 +97,24 @@ export default function Leaderboard() {
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-4xl mx-auto">
+      {/* Live update indicator */}
+      <AnimatePresence>
+        {lastUpdate && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-leaf text-white font-mono text-xs px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+            </span>
+            {lastUpdate.teamName} just updated!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <h1 className="font-display text-3xl md:text-5xl text-ink text-center mb-6">Leaderboard</h1>
 
       {/* Team Lookup */}
