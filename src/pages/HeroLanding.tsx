@@ -109,6 +109,19 @@ export default function HeroLanding() {
             </div>
           ))}
         </div>
+
+        {/* Scroll indicator */}
+        <div className="animate-fade-rise-4 mt-16 flex flex-col items-center gap-2">
+          <p className="text-xs text-white/30 uppercase tracking-widest" style={{ fontFamily: "'Inter', var(--font-body)" }}>
+            Scroll
+          </p>
+          <div className="animate-scroll-bounce">
+            <svg width="20" height="28" viewBox="0 0 20 28" fill="none" className="text-white/40">
+              <rect x="1" y="1" width="18" height="26" rx="9" stroke="currentColor" strokeWidth="1.5" />
+              <circle className="animate-scroll-dot" cx="10" cy="8" r="2.5" fill="currentColor" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -154,3 +154,15 @@
 .hero-landing {
   background: hsl(201 100% 13%);
 }
+
+/* Scroll indicator animations */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+@keyframes scroll-dot {
+  0% { cy: 8; opacity: 1; }
+  100% { cy: 18; opacity: 0; }
+}
+.animate-scroll-bounce { animation: scroll-bounce 2s ease-in-out infinite; }
+.animate-scroll-dot { animation: scroll-dot 1.8s ease-in-out infinite; }
