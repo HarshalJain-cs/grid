@@ -128,8 +128,8 @@ export default function HeroLanding() {
         </p>
 
         <button
-          onClick={() => navigate('/quest')}
-      className="animate-fade-rise-3 liquid-glass rounded-full px-14 py-5 text-base text-white mt-12 hover:scale-[1.03] transition-transform cursor-pointer"
+          onClick={() => navigate('/entry')}
+          className="animate-fade-rise-3 liquid-glass rounded-full px-14 py-5 text-base text-white mt-12 hover:scale-[1.03] transition-transform cursor-pointer"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
           Enter the Quest →
