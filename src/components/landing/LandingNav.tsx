@@ -60,7 +60,7 @@ export default function LandingNav() {
               {l.label}
             </button>
           ))}
-          <button onClick={() => { setOpen(false); navigate('/trivia'); }} className="bg-leaf text-white font-body text-base font-medium px-8 py-3 rounded-full mt-4 min-h-[48px]">
+          <button onClick={() => { setOpen(false); navigate('/entry'); }} className="bg-leaf text-white font-body text-base font-medium px-8 py-3 rounded-full mt-4 min-h-[48px]">
             Enter the Quest →
           </button>
         </div>
