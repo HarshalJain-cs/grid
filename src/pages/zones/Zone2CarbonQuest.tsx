@@ -1,13 +1,12 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
+import ZoneTransition from '@/components/shared/ZoneTransition';
 import { lifestyleQuestions, campusUpgrades, comboBonuses, riddles } from '@/data/zone2Data';
 
 type Section = 'lifestyle' | 'optimize' | 'campus' | 'riddles' | 'results';
 
 export default function Zone2CarbonQuest() {
-  const navigate = useNavigate();
   const { dispatch } = useGame();
   const [section, setSection] = useState<Section>('lifestyle');
   const [initialAnswers, setInitialAnswers] = useState<Record<string, number>>({});
@@ -197,24 +196,22 @@ export default function Zone2CarbonQuest() {
       )}
 
       {section === 'results' && (
-        <div className="mt-6 text-center space-y-6">
-          <h2 className="font-display text-3xl text-ink">Zone 2 Complete!</h2>
-          <div className="border border-cream-border rounded-2xl p-6 bg-white space-y-3">
+        <ZoneTransition
+          zoneName="Carbon Quest"
+          score={Math.min(scores.s1 + scores.s2 + scores.s3, 100)}
+          maxScore={100}
+          nextZonePath="/zone3"
+          nextZoneLabel="Climate Decision"
+        >
+          <div className="border border-cream-border rounded-2xl p-6 bg-white space-y-3 text-left">
             {[['Lifestyle', scores.s1, 30], ['Campus', scores.s2, 45], ['Riddles', scores.s3, 30]].map(([label, score, max]) => (
               <div key={String(label)} className="flex justify-between">
                 <span className="font-body text-sm text-ink-muted">{String(label)}</span>
                 <span className="font-mono text-sm text-leaf">{String(score)}/{String(max)}</span>
               </div>
             ))}
-            <div className="border-t border-cream-border pt-3 flex justify-between">
-              <span className="font-body text-base text-ink font-medium">Total</span>
-              <span className="font-mono text-lg text-leaf font-bold">{Math.min(scores.s1 + scores.s2 + scores.s3, 100)}/100</span>
-            </div>
           </div>
-          <button onClick={() => navigate('/zone3')} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">
-            Next: Zone 3 →
-          </button>
-        </div>
+        </ZoneTransition>
       )}
     </div>
   );

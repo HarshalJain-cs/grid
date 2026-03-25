@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
+import ZoneTransition from '@/components/shared/ZoneTransition';
 import { climateScenarios } from '@/data/zone3Data';
 
 export default function Zone3ClimateDecision() {
-  const navigate = useNavigate();
   const { dispatch } = useGame();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -28,26 +27,25 @@ export default function Zone3ClimateDecision() {
   if (showResults) {
     const total = climateScenarios.reduce((sum, s, i) => sum + (answers[i] !== undefined ? s.options[answers[i]].score : 0), 0);
     return (
-      <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto">
-        <h2 className="font-display text-3xl text-ink mb-6 text-center">Zone 3 Complete!</h2>
-        <div className="space-y-4 mb-8">
+      <ZoneTransition
+        zoneName="Climate Decision"
+        score={Math.min(total, 100)}
+        maxScore={100}
+        nextZonePath="/zone1"
+        nextZoneLabel="Power Puzzle"
+      >
+        <div className="space-y-3 text-left">
           {climateScenarios.map((s, i) => (
             <div key={i} className="border border-cream-border rounded-xl p-4 bg-white">
               <p className="font-display text-base text-ink mb-1">{s.title}</p>
-              <p className="font-body text-xs text-ink-muted mb-2">
+              <p className="font-body text-xs text-ink-muted mb-1">
                 Your choice: {answers[i] !== undefined ? s.options[answers[i]].text : 'Not answered'}
               </p>
               <p className="font-mono text-sm text-leaf">{answers[i] !== undefined ? s.options[answers[i]].score : 0}/20 pts</p>
             </div>
           ))}
         </div>
-        <div className="text-center space-y-4">
-          <p className="font-mono text-2xl text-leaf font-bold">{Math.min(total, 100)}/100</p>
-          <button onClick={() => navigate('/zone1')} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">
-            Next: Zone 1 →
-          </button>
-        </div>
-      </div>
+      </ZoneTransition>
     );
   }
 

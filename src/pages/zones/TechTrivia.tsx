@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
+import ZoneTransition from '@/components/shared/ZoneTransition';
 import { triviaQuestions } from '@/data/techTrivia';
 
 export default function TechTrivia() {
-  const navigate = useNavigate();
   const { dispatch } = useGame();
   const [currentQ, setCurrentQ] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
@@ -50,19 +49,19 @@ export default function TechTrivia() {
   }, [finished]);
 
   const score = correctCount * 5;
-  const tier = score >= 90 ? 'Tech Genius! 🏆' : score >= 70 ? 'Tech Savvy! ⚡' : score >= 50 ? 'Getting There 💡' : 'Keep Learning 📚';
+  
 
   if (finished) {
     return (
-      <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto text-center">
-        <h2 className="font-display text-4xl text-ink mb-4">Tech Trivia Complete!</h2>
-        <p className="font-mono text-5xl text-leaf font-bold mb-2">{score}/100</p>
-        <p className="font-display text-2xl text-ink mb-8">{tier}</p>
-        <p className="font-body text-sm text-ink-muted mb-8">{correctCount} of {triviaQuestions.length} correct</p>
-        <button onClick={() => navigate('/zone2')} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">
-          Next: Zone 2 →
-        </button>
-      </div>
+      <ZoneTransition
+        zoneName="Tech Trivia"
+        score={score}
+        maxScore={100}
+        nextZonePath="/zone2"
+        nextZoneLabel="Carbon Quest"
+      >
+        <p className="font-body text-sm text-ink-muted">{correctCount} of {triviaQuestions.length} correct</p>
+      </ZoneTransition>
     );
   }
 
