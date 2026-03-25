@@ -12,7 +12,7 @@ export default function LandingFooter() {
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-3 gap-12 mb-12">
         <div>
           <span className="font-display text-2xl text-ink">Grid<span className="text-leaf">Quest</span></span>
-          <p className="font-body text-sm text-ink-muted mt-3">A sustainability challenge by BMS College of Engineering.</p>
+          <p className="font-body text-sm text-ink-muted mt-3">A sustainability challenge by BMSCE.</p>
         </div>
         <div>
           <h4 className="font-mono text-[11px] uppercase tracking-widest text-ink-muted mb-4">Menu</h4>
