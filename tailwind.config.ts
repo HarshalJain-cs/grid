@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Instrument Serif", "serif"],
-        body: ["Inter", "sans-serif"],
+        body: ["DM Sans", "sans-serif"],
         mono: ["Space Mono", "monospace"],
       },
       colors: {
@@ -53,18 +53,25 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         cream: {
-          DEFAULT: "hsl(var(--z-bg))",
-          alt: "hsl(var(--z-bg-alt))",
-          border: "hsl(var(--z-border))",
+          DEFAULT: "hsl(var(--lp-bg))",
+          alt: "hsl(var(--lp-bg-alt))",
+          border: "hsl(var(--lp-border))",
         },
         ink: {
-          DEFAULT: "hsl(var(--z-fg))",
-          muted: "hsl(var(--z-muted))",
+          DEFAULT: "hsl(var(--lp-fg))",
+          muted: "hsl(var(--lp-fg-muted))",
         },
         leaf: {
-          DEFAULT: "hsl(var(--z-accent))",
-          light: "hsl(var(--z-accent-light))",
-          bg: "hsl(var(--z-accent-bg))",
+          DEFAULT: "hsl(var(--lp-accent))",
+          light: "hsl(var(--lp-accent-light))",
+          bg: "hsl(var(--lp-accent-bg))",
+        },
+        zone: {
+          bg: "hsl(var(--z-bg))",
+          bg2: "hsl(var(--z-bg2))",
+          fg: "hsl(var(--z-fg))",
+          muted: "hsl(var(--z-muted))",
+          accent: "hsl(var(--z-accent))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
