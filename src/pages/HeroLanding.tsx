@@ -63,7 +63,7 @@ export default function HeroLanding() {
 
         {/* Desktop CTA */}
         <button
-          onClick={() => navigate('/quest')}
+          onClick={() => navigate('/entry')}
           className="hidden md:block liquid-glass rounded-full px-6 py-2.5 text-sm text-white hover:scale-[1.03] transition-transform cursor-pointer"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
