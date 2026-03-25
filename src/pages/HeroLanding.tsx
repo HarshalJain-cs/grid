@@ -63,7 +63,7 @@ export default function HeroLanding() {
 
         {/* Desktop CTA */}
         <button
-          onClick={() => navigate('/quest')}
+          onClick={() => navigate('/entry')}
           className="hidden md:block liquid-glass rounded-full px-6 py-2.5 text-sm text-white hover:scale-[1.03] transition-transform cursor-pointer"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
@@ -96,7 +96,7 @@ export default function HeroLanding() {
               </button>
             ))}
             <button
-              onClick={() => handleNav('/quest')}
+              onClick={() => handleNav('/entry')}
               className="liquid-glass rounded-full px-10 py-4 text-base text-white mt-4 hover:scale-[1.03] transition-transform"
               style={{ fontFamily: "'Inter', var(--font-body)" }}
             >
@@ -128,7 +128,7 @@ export default function HeroLanding() {
         </p>
 
         <button
-          onClick={() => navigate('/quest')}
+          onClick={() => navigate('/entry')}
           className="animate-fade-rise-3 liquid-glass rounded-full px-14 py-5 text-base text-white mt-12 hover:scale-[1.03] transition-transform cursor-pointer"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
