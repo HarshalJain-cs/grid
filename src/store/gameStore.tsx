@@ -19,6 +19,7 @@ const saveLeaderboard = (lb: LeaderboardEntry[]) => {
 const initialState: GameState = {
   teamId: '',
   teamName: '',
+  isVolunteer: false,
   zone1Score: 0,
   zone2Score: 0,
   zone3Score: 0,
@@ -33,6 +34,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'SET_TEAM_ID':
       return { ...state, teamId: action.teamId, teamName: action.teamName || action.teamId };
+    case 'SET_VOLUNTEER':
+      return { ...state, isVolunteer: action.isVolunteer };
     case 'SET_ZONE_SCORE': {
       const key = action.zone === 'trivia' ? 'triviaScore' : `${action.zone}Score` as keyof GameState;
       return { ...state, [key]: action.score };

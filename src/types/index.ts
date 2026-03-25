@@ -1,6 +1,7 @@
 export interface GameState {
   teamId: string;
   teamName: string;
+  isVolunteer: boolean;
   zone1Score: number;
   zone2Score: number;
   zone3Score: number;
@@ -25,6 +26,7 @@ export interface LeaderboardEntry {
 
 export type GameAction =
   | { type: 'SET_TEAM_ID'; teamId: string; teamName?: string }
+  | { type: 'SET_VOLUNTEER'; isVolunteer: boolean }
   | { type: 'SET_ZONE_SCORE'; zone: 'zone1' | 'zone2' | 'zone3' | 'zone4' | 'trivia'; score: number }
   | { type: 'COMPLETE_ZONE'; zone: string }
   | { type: 'SET_VIEW'; view: string }

@@ -20,7 +20,7 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
   const [guesses, setGuesses] = useState(0);
   const [notes, setNotes] = useState('');
   const { dispatch } = useGame();
-  const { leaderboard, upsertEntry } = useConvexLeaderboard();
+  const { syncZoneScore } = useConvexLeaderboard();
 
   const handleUnlock = () => {
     if (pin === PIN) setUnlocked(true);
@@ -38,29 +38,8 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
     dispatch({ type: 'SET_ZONE_SCORE', zone, score: computedScore });
     dispatch({ type: 'COMPLETE_ZONE', zone });
 
-    // Find existing entry or create new one
-    const existing = leaderboard.find(e => e.teamId === teamId);
-    const entry = {
-      teamId,
-      teamName: existing?.teamName || teamId,
-      zone1: existing?.zone1 ?? 0,
-      zone2: existing?.zone2 ?? 0,
-      zone3: existing?.zone3 ?? 0,
-      zone4: existing?.zone4 ?? 0,
-      trivia: existing?.trivia ?? 0,
-      total: 0,
-      timestamp: Date.now(),
-    };
-
-    // Update the zone score
-    if (zone === 'trivia') {
-      entry.trivia = computedScore;
-    } else {
-      entry[zone] = computedScore;
-    }
-    entry.total = Math.min(entry.zone1 + entry.zone2 + entry.zone3 + entry.zone4 + entry.trivia, 500);
-
-    await upsertEntry(entry);
+    // Sync to Convex backend
+    await syncZoneScore(teamId, teamId, zone, computedScore);
     toast.success(`Score ${computedScore} saved for Team ${teamId} in ${zone}`);
     setVTeamId('');
     setScore(0);

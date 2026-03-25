@@ -31,7 +31,8 @@ export default function EntryGate() {
 
   const handleVolunteerUnlock = () => {
     if (pin === VOLUNTEER_PIN) {
-      navigate('/trivia');
+      dispatch({ type: 'SET_VOLUNTEER', isVolunteer: true });
+      navigate('/volunteer');
     } else {
       toast.error('Incorrect PIN');
     }

@@ -15,6 +15,7 @@ import Zone4GreenSketch from "./pages/zones/Zone4GreenSketch";
 import TechTrivia from "./pages/zones/TechTrivia";
 import Leaderboard from "./pages/Leaderboard";
 import ZoneNav from "./components/shared/ZoneNav";
+import VolunteerDashboard from "./pages/VolunteerDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ function AnimatedRoutes() {
         <Route path="/zone3" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone3ClimateDecision /></motion.div></ZoneShell>} />
         <Route path="/zone1" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone1PowerPuzzle /></motion.div></ZoneShell>} />
         <Route path="/zone4" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone4GreenSketch /></motion.div></ZoneShell>} />
+        <Route path="/volunteer" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><VolunteerDashboard /></motion.div></ZoneShell>} />
         <Route path="/leaderboard" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Leaderboard /></motion.div></ZoneShell>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
