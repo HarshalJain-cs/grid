@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/store/gameStore';
 import TimerBar from '@/components/shared/TimerBar';
+import ZoneTransition from '@/components/shared/ZoneTransition';
+import { triviaQuestions } from '@/data/techTrivia';
 import { triviaQuestions } from '@/data/techTrivia';
 
 export default function TechTrivia() {
