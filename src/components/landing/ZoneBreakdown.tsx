@@ -43,7 +43,7 @@ export default function ZoneBreakdown() {
             <div className="sticky top-24 border border-cream-border rounded-2xl p-6 bg-white/60">
               <h3 className="font-display text-lg text-ink mb-4">Event at a glance</h3>
               <div className="space-y-3 font-body text-sm text-ink-muted">
-                <p>📍 BMS College of Engineering, Bengaluru</p>
+                <p>📍 BMSCE, Bengaluru</p>
                 <p>👥 Teams of 2 participants</p>
                 <p>⏱ 5 minutes per zone · ~35 min total</p>
                 <p>🔄 4 batches</p>

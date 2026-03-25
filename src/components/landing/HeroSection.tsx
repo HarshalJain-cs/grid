@@ -15,7 +15,7 @@ export default function HeroSection() {
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-12 items-start">
         <div className="animate-fade-rise">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-6">
-            ⚡ TEAM CHALLENGE · BMS COLLEGE OF ENGINEERING
+            ⚡ TEAM CHALLENGE · BMSCE
           </p>
           <h1 className="font-display text-6xl md:text-7xl lg:text-8xl text-ink leading-[0.95] mb-4">
             GridQuest

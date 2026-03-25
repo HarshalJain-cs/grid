@@ -39,7 +39,7 @@ export default function LandingFooter() {
         </div>
       </div>
       <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between border-t border-cream-border pt-6">
-        <p className="font-mono text-[11px] text-ink-muted">© 2026 GridQuest · BMS College of Engineering</p>
+        <p className="font-mono text-[11px] text-ink-muted">© 2026 GridQuest · BMSCE</p>
         <p className="font-mono text-[11px] text-ink-muted">Built for sustainability ⚡</p>
       </div>
     </footer>
