@@ -34,7 +34,7 @@ export default function HeroSection() {
             A multi-round sustainability challenge where teams tackle energy allocation, carbon tracking, climate decisions, and creative thinking — all under the clock.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button onClick={() => navigate('/trivia')} className="bg-leaf text-white font-body font-medium px-6 py-3 rounded-full hover:bg-leaf/90 transition-colors min-h-[48px]">
+            <button onClick={() => navigate('/entry')} className="bg-leaf text-white font-body font-medium px-6 py-3 rounded-full hover:bg-leaf/90 transition-colors min-h-[48px]">
               Enter the Quest →
             </button>
             <button onClick={() => navigate('/leaderboard')} className="border border-cream-border text-ink font-body font-medium px-6 py-3 rounded-full hover:bg-cream-alt transition-colors">
