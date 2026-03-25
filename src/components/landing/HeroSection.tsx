@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 export default function HeroSection() {
   const navigate = useNavigate();
   const zones = [
-    { emoji: '⚡', name: 'Power Puzzle', type: 'Physical' },
+    { emoji: '💡', name: 'Tech Trivia', type: 'Digital' },
     { emoji: '🌿', name: 'Carbon Quest', type: 'Digital' },
     { emoji: '🌡', name: 'Climate Decision', type: 'Digital' },
-    { emoji: '✏️', name: 'GreenSketch', type: 'Physical' },
-    { emoji: '💡', name: 'Tech Trivia', type: 'Digital' },
+    { emoji: '⚡', name: 'Power Puzzle', type: 'Physical' },
+    { emoji: '✏️', name: 'GreenSketch', type: 'Offline' },
   ];
 
   return (
