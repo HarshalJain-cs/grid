@@ -1,9 +1,24 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const VIDEO_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4';
 
+const NAV_LINKS = [
+  { label: 'Home', path: '/quest' },
+  { label: 'Zones', path: '/quest' },
+  { label: 'Leaderboard', path: '/leaderboard' },
+  { label: 'About', path: '/quest' },
+];
+
 export default function HeroLanding() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNav = (path: string) => {
+    navigate(path);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="hero-landing relative min-h-screen overflow-hidden">
@@ -30,32 +45,67 @@ export default function HeroLanding() {
           GridQuest<sup className="text-xs">®</sup>
         </span>
 
+        {/* Desktop nav links */}
         <div className="hidden md:flex items-center gap-8">
-          {['Home', 'Zones', 'Leaderboard', 'About'].map((link, i) => (
+          {NAV_LINKS.map((link, i) => (
             <button
-              key={link}
-              onClick={() => {
-                if (link === 'Zones' || link === 'Home') navigate('/quest');
-                else if (link === 'Leaderboard') navigate('/leaderboard');
-              }}
+              key={link.label}
+              onClick={() => handleNav(link.path)}
               className={`text-sm transition-colors cursor-pointer ${
                 i === 0 ? 'text-white' : 'text-white/60 hover:text-white'
               }`}
               style={{ fontFamily: "'Inter', var(--font-body)" }}
             >
-              {link}
+              {link.label}
             </button>
           ))}
         </div>
 
+        {/* Desktop CTA */}
         <button
           onClick={() => navigate('/quest')}
-          className="liquid-glass rounded-full px-6 py-2.5 text-sm text-white hover:scale-[1.03] transition-transform cursor-pointer"
+          className="hidden md:block liquid-glass rounded-full px-6 py-2.5 text-sm text-white hover:scale-[1.03] transition-transform cursor-pointer"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
           Begin Journey
         </button>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
+
+      {/* Mobile menu overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-20 md:hidden">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+          <div className="relative z-30 flex flex-col items-center justify-center gap-6 pt-24 pb-12">
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => handleNav(link.path)}
+                className="text-2xl text-white/80 hover:text-white transition-colors min-h-[48px]"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+              >
+                {link.label}
+              </button>
+            ))}
+            <button
+              onClick={() => handleNav('/quest')}
+              className="liquid-glass rounded-full px-10 py-4 text-base text-white mt-4 hover:scale-[1.03] transition-transform"
+              style={{ fontFamily: "'Inter', var(--font-body)" }}
+            >
+              Begin Journey
+            </button>
+          </div>
+        </div>
+      )}
+
 
       {/* Hero content */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-24 sm:pt-32 pb-40">
