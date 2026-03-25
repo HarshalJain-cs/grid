@@ -1,0 +1,68 @@
+export const zonesData = [
+  {
+    number: 1,
+    name: "Power Puzzle",
+    type: "PHYSICAL" as const,
+    duration: "5 min",
+    maxScore: 100,
+    description: "You receive Energy Source Cards each showing power output, cost, and carbon emission values. Allocate them across three sectors: Residential, Commercial, and Industrial. Meet all demands, stay under budget, satisfy your Constraint Card, and minimize carbon. The volunteer verifies and records your score. Max: 100 pts.",
+    scoring: [
+      { label: "All demands met", points: "30 pts" },
+      { label: "Within budget", points: "20 pts" },
+      { label: "Constraint satisfied", points: "20 pts" },
+      { label: "Carbon minimized", points: "up to 30 pts" },
+    ],
+  },
+  {
+    number: 2,
+    name: "Carbon Quest",
+    type: "DIGITAL" as const,
+    duration: "5 min",
+    maxScore: 100,
+    description: "Three sections: (1) Enter your current lifestyle across travel, AC usage, food habits, screen time, and more. Then optimize realistically — extreme jumps are penalized. (2) Upgrade a campus under a ₹100 budget — choose wisely, combos matter. (3) Three sustainability riddles. Max: 100 pts.",
+    scoring: [
+      { label: "Section 1 (Lifestyle)", points: "30 pts" },
+      { label: "Section 2 (Campus)", points: "45 pts" },
+      { label: "Section 3 (Riddles)", points: "30 pts" },
+    ],
+  },
+  {
+    number: 3,
+    name: "Climate Decision Room",
+    type: "DIGITAL" as const,
+    duration: "5 min",
+    maxScore: 100,
+    description: "Five real-world scenarios: a city heatwave at 47°C, EV grid overload, flood risk urban planning, solar farm vs forest, and a water crisis. For each, choose the most balanced option across cost, sustainability, and reliability. No option is 'wrong' — but some are much better than others. Max: 100 pts.",
+    scoring: [
+      { label: "Each scenario", points: "up to 20 pts" },
+      { label: "Best choice", points: "full marks" },
+      { label: "Second-best", points: "partial marks" },
+    ],
+  },
+  {
+    number: 4,
+    name: "GreenSketch",
+    type: "PHYSICAL" as const,
+    duration: "5 min",
+    maxScore: 100,
+    description: "One teammate draws or acts out a sustainability word — no speaking, spelling, or pointing at letters allowed. The other guesses. You have 5 minutes. Pass a word and lose it. Correct guesses in the first minute are worth more. Volunteer tracks your score. Max: 100 pts.",
+    scoring: [
+      { label: "1–3 correct", points: "20 pts" },
+      { label: "4–6 correct", points: "40 pts" },
+      { label: "7–9 correct", points: "65 pts" },
+      { label: "10+ correct", points: "100 pts" },
+    ],
+  },
+  {
+    number: 5,
+    name: "Tech Trivia",
+    type: "DIGITAL" as const,
+    duration: "5 min",
+    maxScore: 100,
+    description: "20 questions on AI, tech companies, global digital policy, semiconductors, EVs, and more. One question at a time, 5 minutes total. No penalty for wrong answers. Instant feedback after each answer. Max: 100 pts.",
+    scoring: [
+      { label: "Each correct answer", points: "5 pts" },
+      { label: "All 20 correct", points: "100 pts" },
+    ],
+  },
+];
