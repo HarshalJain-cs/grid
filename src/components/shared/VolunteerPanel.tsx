@@ -3,16 +3,22 @@ import { useGame } from '@/store/gameStore';
 import { useConvexLeaderboard } from '@/hooks/useConvexLeaderboard';
 import { toast } from 'sonner';
 
+interface JudgingCriterion {
+  label: string;
+  points: string;
+}
+
 interface VolunteerPanelProps {
   zone: 'zone1' | 'zone2' | 'zone3' | 'zone4' | 'trivia';
   maxScore?: number;
   scoreFromGuesses?: (guesses: number) => number;
   showGuesses?: boolean;
+  judgingCriteria?: JudgingCriterion[];
 }
 
 const PIN = 'ieeecs26';
 
-export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses, showGuesses }: VolunteerPanelProps) {
+export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses, showGuesses, judgingCriteria }: VolunteerPanelProps) {
   const [pin, setPin] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [vTeamId, setVTeamId] = useState('');
@@ -20,7 +26,7 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
   const [guesses, setGuesses] = useState(0);
   const [notes, setNotes] = useState('');
   const { dispatch } = useGame();
-  const { syncZoneScore } = useConvexLeaderboard();
+  const { leaderboard, syncZoneScore } = useConvexLeaderboard();
 
   const handleUnlock = () => {
     if (pin === PIN) setUnlocked(true);
@@ -47,6 +53,12 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
     setNotes('');
   };
 
+  // Get teams that already have a score for this zone
+  const zoneKey = zone === 'trivia' ? 'trivia' : zone;
+  const scoredTeams = leaderboard
+    .filter(e => e[zoneKey] > 0)
+    .sort((a, b) => b[zoneKey] - a[zoneKey]);
+
   if (!unlocked) {
     return (
       <div className="max-w-sm mx-auto text-center py-12">
@@ -60,6 +72,20 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
 
   return (
     <div className="max-w-md mx-auto space-y-4 py-4">
+      {/* Judging criteria reference card */}
+      {judgingCriteria && judgingCriteria.length > 0 && (
+        <div className="border border-cream-border rounded-xl overflow-hidden mb-2">
+          <div className="bg-cream-alt px-4 py-2 font-mono text-[11px] text-ink-muted uppercase">Scoring Reference</div>
+          {judgingCriteria.map(c => (
+            <div key={c.label} className="flex justify-between px-4 py-2 border-t border-cream-border">
+              <span className="font-body text-sm text-ink">{c.label}</span>
+              <span className="font-mono text-sm text-leaf font-bold">{c.points}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Score entry form */}
       <div>
         <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID</label>
         <input value={vTeamId} onChange={e => setVTeamId(e.target.value)}
@@ -87,6 +113,29 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
       <button onClick={handleSave} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors">
         Save Score
       </button>
+
+      {/* Scored teams list */}
+      {scoredTeams.length > 0 && (
+        <div className="mt-6">
+          <h3 className="font-mono text-[11px] text-ink-muted uppercase tracking-widest mb-2">
+            Scored Teams ({scoredTeams.length})
+          </h3>
+          <div className="border border-cream-border rounded-xl overflow-hidden">
+            <div className="grid grid-cols-3 bg-cream-alt px-4 py-2">
+              <span className="font-mono text-[10px] text-ink-muted uppercase">Team</span>
+              <span className="font-mono text-[10px] text-ink-muted uppercase text-center">Name</span>
+              <span className="font-mono text-[10px] text-ink-muted uppercase text-right">Score</span>
+            </div>
+            {scoredTeams.map(t => (
+              <div key={t.teamId} className="grid grid-cols-3 px-4 py-2 border-t border-cream-border">
+                <span className="font-mono text-sm text-ink">{t.teamId}</span>
+                <span className="font-body text-sm text-ink-muted text-center truncate">{t.teamName}</span>
+                <span className="font-mono text-sm text-leaf font-bold text-right">{t[zoneKey]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

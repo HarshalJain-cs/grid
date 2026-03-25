@@ -72,7 +72,12 @@ export default function Zone4GreenSketch() {
         </TabsContent>
 
         <TabsContent value="volunteer" className="mt-6">
-          <VolunteerPanel zone="zone4" showGuesses scoreFromGuesses={scoreFromGuesses} />
+          <VolunteerPanel zone="zone4" showGuesses scoreFromGuesses={scoreFromGuesses} judgingCriteria={[
+            { label: '1–3 correct', points: '20 pts' },
+            { label: '4–6 correct', points: '40 pts' },
+            { label: '7–9 correct', points: '65 pts' },
+            { label: '10+ correct', points: '100 pts' },
+          ]} />
         </TabsContent>
       </Tabs>
     </div>

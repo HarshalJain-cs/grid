@@ -55,7 +55,12 @@ export default function Zone1PowerPuzzle() {
         </TabsContent>
 
         <TabsContent value="volunteer" className="mt-6">
-          <VolunteerPanel zone="zone1" />
+          <VolunteerPanel zone="zone1" judgingCriteria={[
+            { label: 'All demands met', points: '30 pts' },
+            { label: 'Within budget', points: '20 pts' },
+            { label: 'Constraint satisfied', points: '20 pts' },
+            { label: 'Carbon minimized', points: 'up to 30 pts' },
+          ]} />
         </TabsContent>
       </Tabs>
     </div>
