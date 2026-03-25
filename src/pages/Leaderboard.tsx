@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGame } from '@/store/gameStore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+
+const SEED_TEAMS = [
+  { teamId: 'alpha', teamName: 'Team Alpha', zone1: 85, zone2: 90, zone3: 80, zone4: 95, trivia: 75, total: 425, timestamp: 1 },
+  { teamId: 'beta', teamName: 'Team Beta', zone1: 70, zone2: 65, zone3: 90, zone4: 60, trivia: 80, total: 365, timestamp: 2 },
+  { teamId: 'gamma', teamName: 'Team Gamma', zone1: 55, zone2: 75, zone3: 60, zone4: 50, trivia: 65, total: 305, timestamp: 3 },
+];
 
 export default function Leaderboard() {
   const { state, dispatch } = useGame();
@@ -12,6 +18,13 @@ export default function Leaderboard() {
   const [editingTeam, setEditingTeam] = useState<string | null>(null);
   const [editData, setEditData] = useState({ teamName: '', zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0 });
   const [newTeam, setNewTeam] = useState({ teamId: '', teamName: '' });
+
+  // Seed demo teams if leaderboard is empty
+  useEffect(() => {
+    if (state.leaderboard.length === 0) {
+      SEED_TEAMS.forEach(t => dispatch({ type: 'ADD_TEAM', entry: t }));
+    }
+  }, []);
 
   const sorted = [...state.leaderboard].sort((a, b) => b.total - a.total);
   const top3 = sorted.slice(0, 3);
@@ -58,14 +71,14 @@ export default function Leaderboard() {
 
   return (
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-4xl mx-auto">
-      <h1 className="font-display text-4xl md:text-5xl text-ink text-center mb-8">Leaderboard</h1>
+      <h1 className="font-display text-3xl md:text-5xl text-ink text-center mb-6">Leaderboard</h1>
 
       {/* Team Lookup */}
-      <div className="max-w-md mx-auto mb-12">
+      <div className="max-w-md mx-auto mb-10">
         <div className="flex gap-2">
           <input value={lookupId} onChange={e => setLookupId(e.target.value)} placeholder="Enter Team ID"
-            className="flex-1 bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
-          <button onClick={() => {}} className="bg-leaf text-white font-body font-medium px-6 py-3 rounded-full">Look Up</button>
+            className="flex-1 bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px]" />
+          <button onClick={() => {}} className="bg-leaf text-white font-body font-medium px-5 py-3 rounded-full min-h-[48px] whitespace-nowrap">Look Up</button>
         </div>
         {lookupEntry && (
           <div className="mt-4 border border-cream-border rounded-xl p-4 bg-white">
@@ -83,17 +96,19 @@ export default function Leaderboard() {
 
       {/* Podium */}
       {top3.length >= 3 && (
-        <div className="flex items-end justify-center gap-4 mb-12 h-48">
+        <div className="flex items-end justify-center gap-3 mb-10 h-44">
           {[1, 0, 2].map(i => {
             const e = top3[i];
             if (!e) return null;
             const heights = ['h-40', 'h-32', 'h-24'];
             const medals = ['🥇', '🥈', '🥉'];
+            const ranks = ['1st', '2nd', '3rd'];
             return (
-              <div key={e.teamId} className={`flex flex-col items-center justify-end ${heights[i]} w-28`}>
+              <div key={e.teamId} className={`flex flex-col items-center justify-end ${heights[i]} w-[30%] max-w-28`}>
                 <span className="text-2xl mb-1">{medals[i]}</span>
                 <div className="w-full bg-leaf-bg border border-leaf/30 rounded-t-xl flex flex-col items-center justify-center flex-1 p-2">
-                  <p className="font-mono text-xs text-ink truncate w-full text-center">{e.teamName}</p>
+                  <p className="font-mono text-[10px] text-ink-muted">{ranks[i]}</p>
+                  <p className="font-mono text-[11px] text-ink truncate w-full text-center">{e.teamName}</p>
                   <p className="font-mono text-lg text-leaf font-bold">{e.total}</p>
                 </div>
               </div>
@@ -102,9 +117,35 @@ export default function Leaderboard() {
         </div>
       )}
 
-      {/* Rankings Table */}
-      <div className="border border-cream-border rounded-xl overflow-hidden mb-12">
-        <div className="overflow-x-auto">
+      {/* Rankings — Card layout on mobile, table on desktop */}
+      <div className="mb-10">
+        {/* Mobile card view */}
+        <div className="md:hidden space-y-2">
+          {sorted.map((e, i) => (
+            <div key={e.teamId} className={`border border-cream-border rounded-xl p-3 ${e.teamId === state.teamId ? 'bg-leaf-bg' : 'bg-white'}`}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-sm text-leaf font-bold w-6">#{i + 1}</span>
+                  <span className="font-body text-sm text-ink font-medium">{e.teamName}</span>
+                </div>
+                <span className="font-mono text-lg text-leaf font-bold">{e.total}</span>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {([['T', e.trivia], ['Z2', e.zone2], ['Z3', e.zone3], ['Z1', e.zone1], ['Z4', e.zone4]] as [string, number][]).map(([label, score]) => (
+                  <span key={label} className="font-mono text-[11px] text-ink-muted bg-cream-alt px-2 py-0.5 rounded">
+                    {label}: {score}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+          {sorted.length === 0 && (
+            <p className="text-center font-body text-sm text-ink-muted py-8">No teams yet</p>
+          )}
+        </div>
+
+        {/* Desktop table view */}
+        <div className="hidden md:block border border-cream-border rounded-xl overflow-hidden">
           <table className="w-full">
             <thead>
               <tr className="bg-cream-alt">
@@ -126,38 +167,33 @@ export default function Leaderboard() {
                   <td className="px-3 py-2 font-mono text-sm text-leaf font-bold">{e.total}</td>
                 </tr>
               ))}
-              {sorted.length === 0 && (
-                <tr><td colSpan={8} className="px-3 py-8 text-center font-body text-sm text-ink-muted bg-white">No teams yet</td></tr>
-              )}
             </tbody>
           </table>
         </div>
       </div>
 
       {/* Admin Panel */}
-      <div className="border border-cream-border rounded-2xl p-6 bg-white">
+      <div className="border border-cream-border rounded-2xl p-4 md:p-6 bg-white">
         <h3 className="font-display text-xl text-ink mb-4">Admin Panel</h3>
         {!adminUnlocked ? (
-          <div className="flex gap-2 max-w-xs">
+          <div className="flex gap-2">
             <input type="password" value={adminPin} onChange={e => setAdminPin(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAdminUnlock()}
-              placeholder="PIN" className="flex-1 bg-cream border border-cream-border rounded-xl px-4 py-2 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
-            <button onClick={handleAdminUnlock} className="bg-leaf text-white font-body font-medium px-6 py-2 rounded-full">Unlock</button>
+              placeholder="PIN" className="flex-1 bg-cream border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px]" />
+            <button onClick={handleAdminUnlock} className="bg-leaf text-white font-body font-medium px-6 py-3 rounded-full min-h-[48px]">Unlock</button>
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Add Team */}
             <div>
               <p className="font-mono text-[11px] text-ink-muted uppercase mb-2">Add Team</p>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input value={newTeam.teamId} onChange={e => setNewTeam(p => ({ ...p, teamId: e.target.value }))} placeholder="Team ID"
-                  className="bg-cream border border-cream-border rounded-xl px-3 py-2 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
+                  className="flex-1 bg-cream border border-cream-border rounded-xl px-3 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px]" />
                 <input value={newTeam.teamName} onChange={e => setNewTeam(p => ({ ...p, teamName: e.target.value }))} placeholder="Team Name"
-                  className="bg-cream border border-cream-border rounded-xl px-3 py-2 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
-                <button onClick={addTeam} className="bg-leaf text-white font-mono text-xs px-4 py-2 rounded-full">Add</button>
+                  className="flex-1 bg-cream border border-cream-border rounded-xl px-3 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px]" />
+                <button onClick={addTeam} className="bg-leaf text-white font-mono text-xs px-4 py-3 rounded-full min-h-[48px]">Add</button>
               </div>
             </div>
 
-            {/* Edit Teams */}
             <div className="space-y-2">
               <p className="font-mono text-[11px] text-ink-muted uppercase">Manage Teams</p>
               {state.leaderboard.map(e => (
@@ -165,27 +201,27 @@ export default function Leaderboard() {
                   {editingTeam === e.teamId ? (
                     <div className="space-y-2">
                       <input value={editData.teamName} onChange={ev => setEditData(p => ({ ...p, teamName: ev.target.value }))} placeholder="Name"
-                        className="w-full bg-cream border border-cream-border rounded-lg px-3 py-1.5 font-mono text-sm text-ink focus:outline-none" />
-                      <div className="grid grid-cols-5 gap-2">
+                        className="w-full bg-cream border border-cream-border rounded-lg px-3 py-2.5 font-mono text-sm text-ink focus:outline-none min-h-[44px]" />
+                      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                         {(['zone1', 'zone2', 'zone3', 'zone4', 'trivia'] as const).map(z => (
                           <div key={z}>
                             <label className="font-mono text-[10px] text-ink-muted">{z}</label>
                             <input type="number" min={0} max={100} value={editData[z]} onChange={ev => setEditData(p => ({ ...p, [z]: Number(ev.target.value) }))}
-                              className="w-full bg-cream border border-cream-border rounded-lg px-2 py-1 font-mono text-sm text-ink focus:outline-none" />
+                              className="w-full bg-cream border border-cream-border rounded-lg px-2 py-2 font-mono text-sm text-ink focus:outline-none min-h-[44px]" />
                           </div>
                         ))}
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={saveEdit} className="bg-leaf text-white font-mono text-xs px-4 py-1.5 rounded-full">Save</button>
-                        <button onClick={() => setEditingTeam(null)} className="font-mono text-xs text-ink-muted">Cancel</button>
+                        <button onClick={saveEdit} className="bg-leaf text-white font-mono text-xs px-4 py-2.5 rounded-full min-h-[44px]">Save</button>
+                        <button onClick={() => setEditingTeam(null)} className="font-mono text-xs text-ink-muted min-h-[44px] px-3">Cancel</button>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between">
-                      <span className="font-body text-sm text-ink">{e.teamName} ({e.teamId}) — {e.total} pts</span>
-                      <div className="flex gap-2">
-                        <button onClick={() => startEdit(e.teamId)} className="font-mono text-xs text-leaf hover:underline">Edit</button>
-                        <button onClick={() => { dispatch({ type: 'DELETE_TEAM', teamId: e.teamId }); toast.success('Deleted'); }} className="font-mono text-xs text-red-500 hover:underline">Delete</button>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-body text-sm text-ink truncate">{e.teamName} ({e.teamId}) — {e.total} pts</span>
+                      <div className="flex gap-1 shrink-0">
+                        <button onClick={() => startEdit(e.teamId)} className="font-mono text-xs text-leaf hover:underline min-h-[44px] px-2">Edit</button>
+                        <button onClick={() => { dispatch({ type: 'DELETE_TEAM', teamId: e.teamId }); toast.success('Deleted'); }} className="font-mono text-xs text-red-500 hover:underline min-h-[44px] px-2">Delete</button>
                       </div>
                     </div>
                   )}
@@ -193,11 +229,10 @@ export default function Leaderboard() {
               ))}
             </div>
 
-            {/* Bulk Actions */}
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button onClick={() => { if (confirm('Reset all leaderboard data?')) { dispatch({ type: 'RESET_LEADERBOARD' }); toast.success('Leaderboard reset'); } }}
-                className="border border-red-300 text-red-500 font-mono text-xs px-4 py-2 rounded-full hover:bg-red-50">Reset Leaderboard</button>
-              <button onClick={exportCSV} className="border border-leaf/50 text-leaf font-mono text-xs px-4 py-2 rounded-full hover:bg-leaf-bg">Export CSV</button>
+                className="border border-red-300 text-red-500 font-mono text-xs px-4 py-3 rounded-full hover:bg-red-50 min-h-[48px]">Reset Leaderboard</button>
+              <button onClick={exportCSV} className="border border-leaf/50 text-leaf font-mono text-xs px-4 py-3 rounded-full hover:bg-leaf-bg min-h-[48px]">Export CSV</button>
             </div>
           </div>
         )}
