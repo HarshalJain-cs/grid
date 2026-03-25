@@ -49,7 +49,7 @@ export default function TechTrivia() {
   }, [finished]);
 
   const score = correctCount * 5;
-  const tier = score >= 90 ? 'Tech Genius! 🏆' : score >= 70 ? 'Tech Savvy! ⚡' : score >= 50 ? 'Getting There 💡' : 'Keep Learning 📚';
+  
 
   if (finished) {
     return (
