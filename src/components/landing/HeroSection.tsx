@@ -7,7 +7,7 @@ export default function HeroSection() {
     { emoji: '🌿', name: 'Carbon Quest', type: 'Digital' },
     { emoji: '🌡', name: 'Climate Decision', type: 'Digital' },
     { emoji: '⚡', name: 'Power Puzzle', type: 'Physical' },
-    { emoji: '✏️', name: 'GreenSketch', type: 'Offline' },
+    { emoji: '✏️', name: 'Eco Shards', type: 'Offline' },
   ];
 
   return (

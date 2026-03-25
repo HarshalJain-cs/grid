@@ -83,11 +83,13 @@ export default function EntryGate() {
           <div>
             <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID *</label>
             <input
+              type="number"
+              inputMode="numeric"
               value={teamId}
-              onChange={e => setTeamId(e.target.value)}
+              onChange={e => setTeamId(e.target.value.replace(/\D/g, ''))}
               onKeyDown={e => e.key === 'Enter' && handleParticipantStart()}
-              placeholder="e.g. T01"
-              className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf"
+              placeholder="e.g. 1"
+              className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
           <div>

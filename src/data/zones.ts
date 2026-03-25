@@ -32,7 +32,7 @@ export const zonesData = [
     type: "DIGITAL" as const,
     duration: "5 min",
     maxScore: 100,
-    description: "Five real-world scenarios: a city heatwave at 47°C, EV grid overload, flood risk urban planning, solar farm vs forest, and a water crisis. For each, choose the most balanced option across cost, sustainability, and reliability. No option is 'wrong' — but some are much better than others. Max: 100 pts.",
+    description: "12 scenario-based questions. Each scenario presents a climate crisis or sustainability dilemma. Choose the best option to solve the crisis. Balance cost, sustainability, and grid impact. No option is 'wrong' — but some are much better than others. Max: 100 pts.",
     scoring: [
       { label: "Each scenario", points: "up to 20 pts" },
       { label: "Best choice", points: "full marks" },
@@ -41,7 +41,7 @@ export const zonesData = [
   },
   {
     number: 4,
-    name: "GreenSketch",
+    name: "Eco Shards",
     type: "PHYSICAL" as const,
     duration: "5 min",
     maxScore: 100,
@@ -59,7 +59,7 @@ export const zonesData = [
     type: "DIGITAL" as const,
     duration: "5 min",
     maxScore: 100,
-    description: "20 questions on AI, tech companies, global digital policy, semiconductors, EVs, and more. One question at a time, 5 minutes total. No penalty for wrong answers. Instant feedback after each answer. Max: 100 pts.",
+    description: "Live buzzer round! Questions are displayed on screen one by one. Teams buzz in to answer — fastest team goes first. If wrong, the next team gets a chance. Topics cover AI, tech companies, digital policy, semiconductors, EVs, and more. Max: 100 pts.",
     scoring: [
       { label: "Each correct answer", points: "5 pts" },
       { label: "All 20 correct", points: "100 pts" },

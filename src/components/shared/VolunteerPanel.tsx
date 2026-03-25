@@ -88,8 +88,9 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
       {/* Score entry form */}
       <div>
         <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID</label>
-        <input value={vTeamId} onChange={e => setVTeamId(e.target.value)}
-          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
+        <input type="number" inputMode="numeric" value={vTeamId} onChange={e => setVTeamId(e.target.value.replace(/\D/g, ''))}
+          placeholder="e.g. 1"
+          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
       </div>
       {showGuesses ? (
         <div>

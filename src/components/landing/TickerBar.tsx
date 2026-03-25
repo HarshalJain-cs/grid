@@ -1,5 +1,5 @@
 export default function TickerBar() {
-  const content = "⚡ Power Puzzle · 🌿 Carbon Quest · 🌡 Climate Decision Room · ✏️ GreenSketch · 💡 Tech Trivia · 🏆 Leaderboard · 👥 Teams of 2 · ⏱ 5 Min Per Zone · ";
+  const content = "⚡ Power Puzzle · 🌿 Carbon Quest · 🌡 Climate Decision Room · ✏️ Eco Shards · 💡 Tech Trivia · 🏆 Leaderboard · 👥 Teams of 2 · ⏱ 5 Min Per Zone · ";
   return (
     <div className="border-y border-cream-border py-4 overflow-hidden bg-cream">
       <div className="flex whitespace-nowrap animate-ticker">

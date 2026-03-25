@@ -15,7 +15,7 @@ export const testimonials = [
     initials: "PL",
     name: "Priya Lakshmi",
     role: "2nd Year, Mech",
-    quote: "GreenSketch was pure chaos and we loved it. My partner drew 'Ozone Layer' for two minutes and I kept guessing 'pizza'. The laughter made it the most memorable 5 minutes of college."
+    quote: "Eco Shards was pure chaos and we loved it. My partner drew 'Ozone Layer' for two minutes and I kept guessing 'pizza'. The laughter made it the most memorable 5 minutes of college."
   },
   {
     initials: "RT",

@@ -6,7 +6,7 @@ const zones = [
   { path: '/zone1', label: 'Zone 1 — Power Puzzle', icon: Zap, type: 'Physical', desc: 'Enter scores for the energy card allocation round' },
   { path: '/zone2', label: 'Zone 2 — Carbon Quest', icon: Leaf, type: 'Digital', desc: 'Auto-scored — players submit on their devices' },
   { path: '/zone3', label: 'Zone 3 — Climate Decision', icon: Cloud, type: 'Digital', desc: 'Auto-scored — players submit on their devices' },
-  { path: '/zone4', label: 'Zone 4 — GreenSketch', icon: Palette, type: 'Physical', desc: 'Enter guess counts for the drawing/acting round' },
+  { path: '/zone4', label: 'Zone 4 — Eco Shards', icon: Palette, type: 'Physical', desc: 'Enter guess counts for the drawing/acting round' },
   { path: '/trivia', label: 'Tech Trivia', icon: Brain, type: 'Digital', desc: 'Auto-scored — players submit on their devices' },
 ];
 

@@ -17,7 +17,7 @@ const ZONE_FLOW = [
   { key: 'zone2', label: 'Carbon Quest', path: '/zone2' },
   { key: 'zone3', label: 'Climate Decision', path: '/zone3' },
   { key: 'zone1', label: 'Power Puzzle', path: '/zone1' },
-  { key: 'zone4', label: 'GreenSketch', path: '/zone4' },
+  { key: 'zone4', label: 'Eco Shards', path: '/zone4' },
 ];
 
 export default function ZoneTransition({

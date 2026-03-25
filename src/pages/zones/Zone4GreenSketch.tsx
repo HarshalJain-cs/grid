@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VolunteerPanel from '@/components/shared/VolunteerPanel';
 import { greenSketchWords } from '@/data/zone4Words';
+import { Timer, Pencil, Ban, Hand } from 'lucide-react';
 
 function scoreFromGuesses(guesses: number): number {
   if (guesses >= 10) return 100;
@@ -19,7 +20,7 @@ export default function Zone4GreenSketch() {
     <div className="pt-20 pb-12 px-4 md:px-6 max-w-3xl mx-auto">
       <div className="mb-6">
         <p className="font-mono text-[11px] text-ink-muted uppercase tracking-widest">Zone 04</p>
-        <h1 className="font-display text-4xl md:text-5xl text-ink">GreenSketch</h1>
+        <h1 className="font-display text-4xl md:text-5xl text-ink">Eco Shards</h1>
         <span className="inline-block font-mono text-[11px] bg-amber-100 text-amber-700 px-3 py-1 rounded-full mt-3">PHYSICAL ROUND · 5 MINUTES</span>
       </div>
 
@@ -31,13 +32,38 @@ export default function Zone4GreenSketch() {
         </TabsList>
 
         <TabsContent value="rules" className="mt-6 space-y-6">
-          <div className="space-y-2">
-            {['One teammate draws or acts — other guesses', 'No speaking, spelling, or pointing at letters', 'Pass a word = lose it permanently', 'Maximize correct guesses in 5 minutes'].map((r, i) => (
-              <p key={i} className="font-body text-sm text-ink-muted">
-                <span className="font-mono text-leaf mr-2">{i + 1}.</span>{r}
-              </p>
+          {/* Timer badge */}
+          <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+            <Timer size={16} className="text-amber-600" />
+            <p className="font-mono text-xs text-amber-700">Time Limit: 5 minutes — guess as many words as possible</p>
+          </div>
+
+          {/* Overview */}
+          <div className="border border-cream-border rounded-2xl p-6 bg-white">
+            <h3 className="font-display text-xl text-ink mb-3">The Challenge</h3>
+            <p className="font-body text-sm text-ink-muted leading-relaxed">
+              Make your teammate guess as many sustainability-related words as possible. One teammate will draw or act — the other teammate must guess the word.
+            </p>
+          </div>
+
+          {/* Rules */}
+          <div className="space-y-3">
+            <h3 className="font-display text-lg text-ink">Rules</h3>
+            {[
+              { icon: Pencil, text: 'One teammate draws or acts — the other guesses the word' },
+              { icon: Ban, text: 'No speaking, spelling, or writing letters allowed' },
+              { icon: Hand, text: 'Pass a word = lose it permanently — choose wisely' },
+            ].map((r, i) => (
+              <div key={i} className="flex items-start gap-3 p-3 border border-cream-border rounded-xl bg-white">
+                <div className="w-8 h-8 rounded-full bg-leaf-bg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <r.icon size={14} className="text-leaf" />
+                </div>
+                <p className="font-body text-sm text-ink-muted leading-relaxed">{r.text}</p>
+              </div>
             ))}
           </div>
+
+          {/* Scoring */}
           <div className="border border-cream-border rounded-xl overflow-hidden">
             <div className="bg-cream-alt px-4 py-2 font-mono text-[11px] text-ink-muted uppercase">Scoring</div>
             {[['1–3 correct', '20 pts'], ['4–6 correct', '40 pts'], ['7–9 correct', '65 pts'], ['10+ correct', '100 pts']].map(([l, p]) => (
@@ -46,6 +72,31 @@ export default function Zone4GreenSketch() {
                 <span className="font-mono text-sm text-leaf font-bold">{p}</span>
               </div>
             ))}
+          </div>
+
+          {/* Tips */}
+          <div className="bg-leaf-bg border border-leaf/20 rounded-xl p-5">
+            <h3 className="font-display text-lg text-ink mb-3">Tips & Strategy</h3>
+            <div className="space-y-2">
+              {[
+                'Start with words you\'re most confident about drawing/acting',
+                'Keep drawings simple — stick figures and symbols work great',
+                'If acting, use big gestures and common associations',
+                'Don\'t waste time on hard words — pass and move on',
+                'The guesser should call out multiple guesses rapidly',
+                'Aim for 10+ to hit the max 100 points!',
+              ].map((tip, i) => (
+                <p key={i} className="font-body text-sm text-ink-muted">
+                  <span className="font-mono text-leaf mr-2">→</span>{tip}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Motivation */}
+          <div className="text-center py-6">
+            <p className="font-display text-2xl text-ink mb-2">Draw it. Act it. Guess it!</p>
+            <p className="font-body text-sm text-ink-muted">Creativity and teamwork are your best weapons. Make every second count!</p>
           </div>
         </TabsContent>
 

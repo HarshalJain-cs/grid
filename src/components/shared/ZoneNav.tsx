@@ -7,7 +7,7 @@ const zoneDots = [
   { key: 'zone1', label: '1', path: '/zone1', offline: false },
   { key: 'zone2', label: '2', path: '/zone2', offline: false },
   { key: 'zone3', label: '3', path: '/zone3', offline: false },
-  { key: 'zone4', label: '4', path: '/zone4', offline: true },
+  { key: 'zone4', label: '4', path: '/zone4', offline: false },
 ];
 
 export default function ZoneNav() {
