@@ -24,7 +24,7 @@ export default function RegistrationSection() {
 
   return (
     <section id="register" className="py-20 md:py-28 px-6 bg-cream-alt">
-      <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-12">
+      <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-6 md:gap-12">
         <div>
           <h2 className="font-display text-4xl md:text-5xl text-ink mb-4">Ready to play?</h2>
           <p className="font-body text-base text-ink-muted mb-8">

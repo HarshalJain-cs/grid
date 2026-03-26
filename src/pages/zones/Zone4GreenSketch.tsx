@@ -118,7 +118,7 @@ export default function Zone4GreenSketch() {
                 onChange={e => setWordsPin(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && wordsPin === WORDS_PIN && setWordsUnlocked(true)}
                 placeholder="Enter PIN"
-                className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4"
+                className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-base sm:text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4 min-h-[48px]"
               />
               <button
                 onClick={() => wordsPin === WORDS_PIN ? setWordsUnlocked(true) : null}
@@ -141,7 +141,7 @@ export default function Zone4GreenSketch() {
               <div className="flex flex-wrap gap-2 mb-6">
                 {greenSketchWords.map(w => (
                   <button key={w} onClick={() => setUsedWords(prev => { const n = new Set(prev); n.has(w) ? n.delete(w) : n.add(w); return n; })}
-                    className={`px-4 py-2.5 rounded-xl font-mono text-[13px] border border-cream-border transition-all bg-white ${usedWords.has(w) ? 'opacity-40 line-through' : 'text-ink'}`}>
+                    className={`px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl font-mono text-xs sm:text-[13px] border border-cream-border transition-all bg-white ${usedWords.has(w) ? 'opacity-40 line-through' : 'text-ink'}`}>
                     {w}
                   </button>
                 ))}

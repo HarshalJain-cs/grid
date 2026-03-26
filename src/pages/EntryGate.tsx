@@ -43,7 +43,7 @@ export default function EntryGate() {
       {mode !== 'select' && (
         <button
           onClick={() => setMode('select')}
-          className="absolute top-6 left-6 text-ink-muted hover:text-ink transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="absolute top-4 left-3 sm:left-6 text-ink-muted hover:text-ink transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
           <ArrowLeft size={20} />
         </button>
@@ -121,7 +121,7 @@ export default function EntryGate() {
               onChange={e => setPin(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleVolunteerUnlock()}
               placeholder="Enter PIN"
-              className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf"
+              className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-base sm:text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px]"
             />
           </div>
           <button

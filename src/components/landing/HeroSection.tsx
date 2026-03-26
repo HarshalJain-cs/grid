@@ -12,7 +12,7 @@ export default function HeroSection() {
 
   return (
     <section className="py-20 md:py-32 px-6">
-      <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-12 items-start">
+      <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-6 md:gap-12 items-start">
         <div className="animate-fade-rise">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-3">
             IEEE Computer Society, BMSCE presents
@@ -20,7 +20,7 @@ export default function HeroSection() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted mb-6">
             ⚡ TEAM CHALLENGE · BMSCE
           </p>
-          <h1 className="font-display text-6xl md:text-7xl lg:text-8xl text-ink leading-[0.95] mb-4">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-ink leading-[0.95] mb-4">
             GridQuest
           </h1>
           <h2 className="font-display text-3xl md:text-4xl text-ink italic mb-8">

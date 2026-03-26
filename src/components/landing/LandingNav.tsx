@@ -47,7 +47,7 @@ export default function LandingNav() {
           <button onClick={() => navigate('/entry')} className="hidden sm:inline-flex bg-leaf text-white font-body text-sm font-medium px-5 py-2 rounded-full hover:bg-leaf/90 transition-colors">
             Enter the Quest →
           </button>
-          <button className="md:hidden" onClick={() => setOpen(!open)}>
+          <button className="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center" onClick={() => setOpen(!open)}>
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

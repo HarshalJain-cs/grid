@@ -78,14 +78,14 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
       <div className="max-w-sm mx-auto text-center py-12">
         <p className="font-body text-ink mb-4">Enter Volunteer PIN</p>
         <input type="password" value={pin} onChange={e => setPin(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleUnlock()}
-          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4" placeholder="PIN" />
+          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-base sm:text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4 min-h-[48px]" placeholder="PIN" />
         <button onClick={handleUnlock} className="bg-leaf text-white font-body font-medium px-8 py-3 rounded-full">Unlock</button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto space-y-4 py-4">
+    <div className="max-w-md mx-auto space-y-4 py-4 px-1">
       {/* Judging criteria reference card */}
       {judgingCriteria && judgingCriteria.length > 0 && (
         <div className="border border-cream-border rounded-xl overflow-hidden mb-2">
@@ -104,7 +104,7 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
         <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team ID *</label>
         <input type="number" inputMode="numeric" value={vTeamId} onChange={e => setVTeamId(e.target.value.replace(/\D/g, ''))}
           placeholder="e.g. 1"
-          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+          className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink focus:outline-none focus:ring-2 focus:ring-leaf min-h-[48px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
       </div>
       <div>
         <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Team Name (optional)</label>
@@ -128,7 +128,7 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
       )}
       <div>
         <label className="font-mono text-[11px] text-ink-muted uppercase mb-1 block">Notes (optional)</label>
-        <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2}
+        <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3}
           className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-sm text-ink focus:outline-none focus:ring-2 focus:ring-leaf" />
       </div>
       <button onClick={handleSave} disabled={saving} className="w-full bg-leaf text-white font-body font-medium py-3 rounded-full hover:bg-leaf/90 transition-colors disabled:opacity-50">
@@ -142,13 +142,13 @@ export default function VolunteerPanel({ zone, maxScore = 100, scoreFromGuesses,
             Scored Teams ({scoredTeams.length})
           </h3>
           <div className="border border-cream-border rounded-xl overflow-hidden">
-            <div className="grid grid-cols-3 bg-cream-alt px-4 py-2">
+            <div className="grid grid-cols-3 bg-cream-alt px-3 sm:px-4 py-2">
               <span className="font-mono text-[10px] text-ink-muted uppercase">Team</span>
               <span className="font-mono text-[10px] text-ink-muted uppercase text-center">Name</span>
               <span className="font-mono text-[10px] text-ink-muted uppercase text-right">Score</span>
             </div>
             {scoredTeams.map(t => (
-              <div key={t.teamId} className="grid grid-cols-3 px-4 py-2 border-t border-cream-border">
+              <div key={t.teamId} className="grid grid-cols-3 px-3 sm:px-4 py-2 border-t border-cream-border">
                 <span className="font-mono text-sm text-ink">{t.teamId}</span>
                 <span className="font-body text-sm text-ink-muted text-center truncate">{t.teamName}</span>
                 <span className="font-mono text-sm text-leaf font-bold text-right">{t[zoneKey]}</span>

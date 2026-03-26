@@ -105,7 +105,7 @@ export default function ZoneTransition({
             transition={{ delay: 0.6, type: 'spring', stiffness: 150 }}
             className="mb-2"
           >
-            <span className="font-mono text-5xl md:text-6xl text-leaf font-bold">
+            <span className="font-mono text-4xl sm:text-5xl md:text-6xl text-leaf font-bold">
               {countedScore}
             </span>
             <span className="font-mono text-xl text-ink-muted">/{maxScore}</span>

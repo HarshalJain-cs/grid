@@ -33,7 +33,7 @@ export default function Zone1PowerPuzzle() {
           </div>
 
           {/* Energy Cards */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
               { emoji: '☀️', label: 'Solar', count: 3 },
               { emoji: '💨', label: 'Wind', count: 3 },
@@ -60,9 +60,9 @@ export default function Zone1PowerPuzzle() {
           </div>
 
           {/* Sectors */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {[{ emoji: '🏠', label: 'Residential' }, { emoji: '🏢', label: 'Commercial' }, { emoji: '🏭', label: 'Industrial' }].map(s => (
-              <div key={s.label} className="border border-cream-border rounded-xl p-4 text-center bg-white">
+              <div key={s.label} className="border border-cream-border rounded-xl p-3 sm:p-4 text-center bg-white">
                 <span className="text-2xl">{s.emoji}</span>
                 <p className="font-mono text-xs text-ink mt-2">{s.label}</p>
               </div>

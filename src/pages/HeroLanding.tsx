@@ -37,7 +37,7 @@ export default function HeroLanding() {
       <div className="absolute inset-0 bg-black/30 z-[1]" />
 
       {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-8 py-6 max-w-7xl mx-auto">
+      <nav className="relative z-10 flex items-center justify-between px-4 sm:px-6 md:px-8 py-6 max-w-7xl mx-auto">
         <span
           className="text-3xl tracking-tight text-white"
           style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -110,7 +110,7 @@ export default function HeroLanding() {
       {/* Hero content */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-24 sm:pt-32 pb-40">
         <h1
-          className="animate-fade-rise text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-white"
+          className="animate-fade-rise text-3xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-white"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
           Solve the <em className="not-italic text-white/50">Grid,</em>
@@ -137,7 +137,7 @@ export default function HeroLanding() {
 
         {/* Stats row */}
         <div
-          className="animate-fade-rise-4 flex flex-wrap justify-center gap-8 mt-16"
+          className="animate-fade-rise-4 flex flex-wrap justify-center gap-4 sm:gap-8 mt-16"
           style={{ fontFamily: "'Inter', var(--font-body)" }}
         >
           {[

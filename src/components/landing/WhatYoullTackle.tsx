@@ -21,7 +21,7 @@ export default function WhatYoullTackle() {
                 <div className="flex gap-4">
                   <span className="font-mono text-sm text-leaf font-bold">{item.num}</span>
                   <div>
-                    <h3 className="font-display text-xl text-ink mb-1">{item.title}</h3>
+                    <h3 className="font-display text-lg sm:text-xl text-ink mb-1">{item.title}</h3>
                     <p className="font-body text-sm text-ink-muted leading-relaxed">{item.desc}</p>
                   </div>
                 </div>

@@ -107,7 +107,7 @@ export default function Zone3ClimateDecision() {
                 onChange={e => setFormPin(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && formPin === FORM_PIN && setFormUnlocked(true)}
                 placeholder="Enter PIN"
-                className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4"
+                className="w-full bg-white border border-cream-border rounded-xl px-4 py-3 font-mono text-ink text-center text-base sm:text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-leaf mb-4 min-h-[48px]"
               />
               <button
                 onClick={() => formPin === FORM_PIN ? setFormUnlocked(true) : null}

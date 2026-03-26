@@ -247,7 +247,7 @@ export default function Leaderboard() {
                     <div className="space-y-2">
                       <input value={editData.teamName} onChange={ev => setEditData(p => ({ ...p, teamName: ev.target.value }))} placeholder="Name"
                         className="w-full bg-cream border border-cream-border rounded-lg px-3 py-2.5 font-mono text-sm text-ink focus:outline-none min-h-[44px]" />
-                      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                         {(['zone1', 'zone2', 'zone3', 'zone4', 'trivia'] as const).map(z => (
                           <div key={z}>
                             <label className="font-mono text-[10px] text-ink-muted">{z}</label>

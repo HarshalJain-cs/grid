@@ -9,7 +9,7 @@ export default function ZoneBreakdown() {
         <h2 className="font-display text-4xl md:text-5xl text-ink mb-12">What's inside GridQuest?</h2>
         <p className="font-body text-base text-ink-muted mb-12">5 zones, 5 minutes each. Here's exactly what to expect.</p>
 
-        <div className="grid md:grid-cols-[1fr_340px] gap-10">
+        <div className="grid md:grid-cols-[1fr_340px] gap-6 md:gap-10">
           <Accordion type="single" collapsible className="space-y-0">
             {zonesData.map(z => (
               <AccordionItem key={z.number} value={`z${z.number}`} className="border-b border-cream-border">
