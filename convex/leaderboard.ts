@@ -94,7 +94,7 @@ export const updateZoneScore = mutation({
       const updated = { ...existing, ...update };
       const total = (updated.zone1 as number) + (updated.zone2 as number) +
         (updated.zone3 as number) + (updated.zone4 as number) + (updated.trivia as number);
-      update.total = Math.min(total, 500);
+      update.total = Math.min(total, 380);
       await ctx.db.patch(existing._id, update);
     } else {
       const entry: Record<string, number | string> = {
@@ -109,7 +109,7 @@ export const updateZoneScore = mutation({
         timestamp: Date.now(),
       };
       entry[args.zone] = args.score;
-      entry.total = Math.min(args.score, 500);
+      entry.total = Math.min(args.score, 380);
       await ctx.db.insert("leaderboard", entry as any);
     }
   },

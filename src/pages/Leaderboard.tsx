@@ -63,21 +63,29 @@ export default function Leaderboard() {
 
   const saveEdit = async () => {
     if (!editingTeam) return;
-    await updateEntry(editingTeam, editData);
-    setEditingTeam(null);
-    toast.success('Team updated');
+    try {
+      await updateEntry(editingTeam, editData);
+      setEditingTeam(null);
+      toast.success('Team updated');
+    } catch (e) {
+      toast.error('Failed to update team');
+    }
   };
 
   const addTeam = async () => {
     if (!newTeam.teamId.trim()) return;
-    await upsertEntry({
-      teamId: newTeam.teamId.trim(),
-      teamName: newTeam.teamName || newTeam.teamId.trim(),
-      zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0, total: 0,
-      timestamp: Date.now(),
-    });
-    setNewTeam({ teamId: '', teamName: '' });
-    toast.success('Team added');
+    try {
+      await upsertEntry({
+        teamId: newTeam.teamId.trim(),
+        teamName: newTeam.teamName || newTeam.teamId.trim(),
+        zone1: 0, zone2: 0, zone3: 0, zone4: 0, trivia: 0, total: 0,
+        timestamp: Date.now(),
+      });
+      setNewTeam({ teamId: '', teamName: '' });
+      toast.success('Team added');
+    } catch (e) {
+      toast.error('Failed to add team');
+    }
   };
 
   const exportCSV = () => {
@@ -266,7 +274,7 @@ export default function Leaderboard() {
                       <span className="font-body text-sm text-ink truncate">{e.teamName} ({e.teamId}) — {e.total} pts</span>
                       <div className="flex gap-1 shrink-0">
                         <button onClick={() => startEdit(e.teamId)} className="font-mono text-xs text-leaf hover:underline min-h-[44px] px-2">Edit</button>
-                        <button onClick={async () => { await deleteEntry(e.teamId); toast.success('Deleted'); }} className="font-mono text-xs text-red-500 hover:underline min-h-[44px] px-2">Delete</button>
+                        <button onClick={async () => { try { await deleteEntry(e.teamId); toast.success('Deleted'); } catch { toast.error('Failed to delete'); } }} className="font-mono text-xs text-red-500 hover:underline min-h-[44px] px-2">Delete</button>
                       </div>
                     </div>
                   )}
@@ -275,7 +283,7 @@ export default function Leaderboard() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button onClick={async () => { if (confirm('Reset all leaderboard data?')) { await resetLeaderboard(); toast.success('Leaderboard reset'); } }}
+              <button onClick={async () => { if (confirm('Reset all leaderboard data?')) { try { await resetLeaderboard(); toast.success('Leaderboard reset'); } catch { toast.error('Failed to reset'); } } }}
                 className="border border-red-300 text-red-500 font-mono text-xs px-4 py-3 rounded-full hover:bg-red-50 min-h-[48px]">Reset Leaderboard</button>
               <button onClick={exportCSV} className="border border-leaf/50 text-leaf font-mono text-xs px-4 py-3 rounded-full hover:bg-leaf-bg min-h-[48px]">Export CSV</button>
             </div>

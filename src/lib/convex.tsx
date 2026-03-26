@@ -1,7 +1,8 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import type { ReactNode } from "react";
 
-const convexUrl = import.meta.env.VITE_CONVEX_URL as string;
+const rawUrl = import.meta.env.VITE_CONVEX_URL as string;
+const convexUrl = rawUrl?.trim();
 
 let convex: ConvexReactClient | null = null;
 try {
