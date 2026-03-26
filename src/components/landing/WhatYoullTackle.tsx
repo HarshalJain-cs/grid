@@ -3,7 +3,7 @@ const items = [
   { num: '02', title: 'Carbon Footprinting', desc: 'Track your real lifestyle emissions, then make realistic optimizations. Extreme changes are penalized — think practically.' },
   { num: '03', title: 'Climate Decision Making', desc: 'Face real-world crises: heatwaves, EV grid overloads, flood risk zones. Pick the most balanced solution, not just the greenest one.' },
   { num: '04', title: 'Creative Communication', desc: 'Draw or act out sustainability concepts without speaking or spelling. Guess as many as possible in 5 minutes.' },
-  { num: '05', title: 'Technology Awareness', desc: '20 rapid-fire questions on AI, EVs, semiconductors, global tech policy, and digital infrastructure.' },
+  { num: '05', title: 'Technology Awareness', desc: '30 rapid-fire questions on AI, EVs, semiconductors, global tech policy, and digital infrastructure.' },
   { num: '06', title: 'Team Strategy', desc: 'All zones are solved together. Time pressure is real. Your combined thinking determines your final ranking.' },
 ];
 

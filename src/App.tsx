@@ -1,3 +1,4 @@
+import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -21,50 +22,79 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-6 text-center">
+          <h1 className="font-display text-3xl text-ink mb-4">Something went wrong</h1>
+          <p className="font-body text-ink-muted mb-6">Please refresh the page to try again.</p>
+          <button onClick={() => { this.setState({ hasError: false }); window.location.hash = '/'; window.location.reload(); }}
+            className="bg-leaf text-white font-body font-medium px-6 py-3 rounded-full">
+            Refresh
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function ZoneShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-cream text-ink">
+    <div className="min-h-screen min-h-[100dvh] bg-cream text-ink">
       <ZoneNav />
       {children}
     </div>
   );
 }
 
+const pageTransition = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -12 }, transition: { duration: 0.25 } };
+
 function AnimatedRoutes() {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<HeroLanding />} />
-        <Route path="/quest" element={<LandingPage />} />
-        <Route path="/entry" element={<EntryGate />} />
-        <Route path="/trivia" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><TechTrivia /></motion.div></ZoneShell>} />
-        <Route path="/zone2" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone2CarbonQuest /></motion.div></ZoneShell>} />
-        <Route path="/zone3" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone3ClimateDecision /></motion.div></ZoneShell>} />
-        <Route path="/zone1" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone1PowerPuzzle /></motion.div></ZoneShell>} />
-        <Route path="/zone4" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Zone4GreenSketch /></motion.div></ZoneShell>} />
-        <Route path="/volunteer" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><VolunteerDashboard /></motion.div></ZoneShell>} />
-        <Route path="/leaderboard" element={<ZoneShell><motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}><Leaderboard /></motion.div></ZoneShell>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <motion.div key={location.pathname} {...pageTransition}>
+        <Routes location={location}>
+          <Route path="/" element={<HeroLanding />} />
+          <Route path="/quest" element={<LandingPage />} />
+          <Route path="/entry" element={<EntryGate />} />
+          <Route path="/trivia" element={<ZoneShell><TechTrivia /></ZoneShell>} />
+          <Route path="/zone2" element={<ZoneShell><Zone2CarbonQuest /></ZoneShell>} />
+          <Route path="/zone3" element={<ZoneShell><Zone3ClimateDecision /></ZoneShell>} />
+          <Route path="/zone1" element={<ZoneShell><Zone1PowerPuzzle /></ZoneShell>} />
+          <Route path="/zone4" element={<ZoneShell><Zone4GreenSketch /></ZoneShell>} />
+          <Route path="/volunteer" element={<ZoneShell><VolunteerDashboard /></ZoneShell>} />
+          <Route path="/leaderboard" element={<ZoneShell><Leaderboard /></ZoneShell>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </motion.div>
     </AnimatePresence>
   );
 }
 
 const App = () => (
-  <ConvexClientProvider>
-    <QueryClientProvider client={queryClient}>
-      <GameProvider>
-        <TooltipProvider>
-          <Sonner />
-          <Analytics />
-          <HashRouter>
-            <AnimatedRoutes />
-          </HashRouter>
-        </TooltipProvider>
-      </GameProvider>
-    </QueryClientProvider>
-  </ConvexClientProvider>
+  <ErrorBoundary>
+    <ConvexClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <GameProvider>
+          <TooltipProvider>
+            <Sonner />
+            <Analytics />
+            <HashRouter>
+              <AnimatedRoutes />
+            </HashRouter>
+          </TooltipProvider>
+        </GameProvider>
+      </QueryClientProvider>
+    </ConvexClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

@@ -7,10 +7,8 @@ export const zonesData = [
     maxScore: 100,
     description: "You receive Energy Source Cards each showing power output, cost, and carbon emission values. Allocate them across three sectors: Residential, Commercial, and Industrial. Meet all demands, stay under budget, satisfy your Constraint Card, and minimize carbon. The volunteer verifies and records your score. Max: 100 pts.",
     scoring: [
-      { label: "All demands met", points: "30 pts" },
-      { label: "Within budget", points: "20 pts" },
-      { label: "Constraint satisfied", points: "20 pts" },
-      { label: "Carbon minimized", points: "up to 30 pts" },
+      { label: "Each correct answer", points: "5 pts" },
+      { label: "Max score", points: "100 pts" },
     ],
   },
   {
@@ -44,13 +42,11 @@ export const zonesData = [
     name: "Eco Shards",
     type: "PHYSICAL" as const,
     duration: "5 min",
-    maxScore: 100,
-    description: "One teammate draws or acts out a sustainability word — no speaking, spelling, or pointing at letters allowed. The other guesses. You have 5 minutes. Pass a word and lose it. Correct guesses in the first minute are worth more. Volunteer tracks your score. Max: 100 pts.",
+    maxScore: 20,
+    description: "One teammate draws or acts out a sustainability word — no speaking, spelling, or pointing at letters allowed. The other guesses. You have 5 minutes. Pass a word and lose it. Volunteer tracks your score. Max: 20 pts.",
     scoring: [
-      { label: "1–3 correct", points: "20 pts" },
-      { label: "4–6 correct", points: "40 pts" },
-      { label: "7–9 correct", points: "65 pts" },
-      { label: "10+ correct", points: "100 pts" },
+      { label: "Each correct answer", points: "+1 pt" },
+      { label: "Max score", points: "20 pts" },
     ],
   },
   {
@@ -58,11 +54,11 @@ export const zonesData = [
     name: "Tech Trivia",
     type: "DIGITAL" as const,
     duration: "5 min",
-    maxScore: 100,
-    description: "Live buzzer round! Questions are displayed on screen one by one. Teams buzz in to answer — fastest team goes first. If wrong, the next team gets a chance. Topics cover AI, tech companies, digital policy, semiconductors, EVs, and more. Max: 100 pts.",
+    maxScore: 60,
+    description: "Live buzzer round! 30 questions displayed on screen one by one. Teams buzz in to answer — fastest team goes first. If wrong, the next team gets a chance. Topics cover AI, tech companies, digital policy, semiconductors, EVs, and more. Max: 60 pts.",
     scoring: [
-      { label: "Each correct answer", points: "5 pts" },
-      { label: "All 20 correct", points: "100 pts" },
+      { label: "Each correct answer", points: "2 marks" },
+      { label: "All 30 correct", points: "60 pts" },
     ],
   },
 ];

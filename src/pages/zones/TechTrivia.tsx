@@ -47,7 +47,7 @@ export default function TechTrivia() {
           {/* Scoring */}
           <div className="border border-cream-border rounded-xl overflow-hidden">
             <div className="bg-cream-alt px-4 py-2 font-mono text-[11px] text-ink-muted uppercase">Scoring</div>
-            {[['Correct answer', '5 pts per question'], ['All 20 correct', '100 pts (max)'], ['Wrong answer', 'No penalty — next team gets a chance']].map(([l, p]) => (
+            {[['Correct answer', '2 marks per question'], ['All 30 correct', '60 pts (max)'], ['Wrong answer', 'No penalty — next team gets a chance']].map(([l, p]) => (
               <div key={l} className="flex justify-between px-4 py-2.5 border-t border-cream-border">
                 <span className="font-body text-sm text-ink">{l}</span>
                 <span className="font-mono text-sm text-leaf font-bold">{p}</span>
@@ -81,9 +81,9 @@ export default function TechTrivia() {
         </TabsContent>
 
         <TabsContent value="volunteer" className="mt-6">
-          <VolunteerPanel zone="trivia" judgingCriteria={[
-            { label: 'Each correct answer', points: '5 pts' },
-            { label: 'All 20 correct', points: '100 pts' },
+          <VolunteerPanel zone="trivia" maxScore={60} judgingCriteria={[
+            { label: 'Each correct answer', points: '2 marks' },
+            { label: 'All 30 correct', points: '60 pts' },
           ]} />
         </TabsContent>
       </Tabs>

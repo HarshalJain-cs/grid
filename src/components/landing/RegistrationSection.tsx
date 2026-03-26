@@ -19,7 +19,7 @@ export default function RegistrationSection() {
     'Digital lifestyle tracker with carbon scoring',
     'Real-world climate crisis scenarios',
     'Sustainability draw-and-guess game',
-    '20-question tech trivia rapid-fire',
+    '30-question tech trivia rapid-fire',
   ];
 
   return (
@@ -58,8 +58,8 @@ export default function RegistrationSection() {
           <h3 className="font-display text-xl text-ink mb-1">What's included</h3>
           <p className="font-mono text-sm text-leaf mb-6">5 Zones included</p>
           <div className="flex items-baseline gap-2 mb-6">
-            <span className="font-display text-4xl text-ink">100</span>
-            <span className="font-body text-sm text-ink-muted">pts / per zone</span>
+            <span className="font-display text-4xl text-ink">380</span>
+            <span className="font-body text-sm text-ink-muted">pts total across all zones</span>
           </div>
           <div className="space-y-3 mb-8">
             {features.map(f => (

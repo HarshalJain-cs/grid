@@ -21,7 +21,7 @@ export default function HeroLanding() {
   };
 
   return (
-    <div className="hero-landing relative min-h-screen overflow-hidden">
+    <div className="hero-landing relative min-h-screen min-h-[100dvh] overflow-hidden">
       {/* Video background */}
       <video
         autoPlay
@@ -142,7 +142,7 @@ export default function HeroLanding() {
         >
           {[
             { label: 'Zones', value: '4' },
-            { label: 'Max Score', value: '500' },
+            { label: 'Max Score', value: '380' },
             { label: 'Team Size', value: '2' },
             { label: 'Minutes', value: '~35' },
           ].map((stat) => (

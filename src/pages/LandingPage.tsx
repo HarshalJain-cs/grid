@@ -13,7 +13,7 @@ import ScrollReveal from '@/components/shared/ScrollReveal';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-cream text-ink overflow-x-hidden">
+    <div className="min-h-screen min-h-[100dvh] bg-cream text-ink overflow-x-hidden">
       <LandingNav />
       <ScrollReveal duration={0.8}>
         <HeroSection />

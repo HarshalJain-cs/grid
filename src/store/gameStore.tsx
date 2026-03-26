@@ -55,7 +55,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         zone3: state.zone3Score,
         zone4: state.zone4Score,
         trivia: state.triviaScore,
-        total: Math.min(total, 500),
+        total: Math.min(total, 380),
         timestamp: Date.now(),
       };
       const existingIdx = state.leaderboard.findIndex(e => e.teamId === state.teamId);

@@ -91,7 +91,7 @@ export default function Zone1PowerPuzzle() {
           {/* Scoring */}
           <div className="border border-cream-border rounded-xl overflow-hidden">
             <div className="bg-cream-alt px-4 py-2 font-mono text-[11px] text-ink-muted uppercase">Scoring</div>
-            {[['All demands met', '30 pts'], ['Within budget', '20 pts'], ['Constraint satisfied', '20 pts'], ['Carbon minimized', 'up to 30 pts']].map(([l, p]) => (
+            {[['Each correct answer', '5 pts'], ['Max score', '100 pts']].map(([l, p]) => (
               <div key={l} className="flex justify-between px-4 py-2.5 border-t border-cream-border">
                 <span className="font-body text-sm text-ink">{l}</span>
                 <span className="font-mono text-sm text-leaf font-bold">{p}</span>
@@ -127,10 +127,8 @@ export default function Zone1PowerPuzzle() {
 
         <TabsContent value="volunteer" className="mt-6">
           <VolunteerPanel zone="zone1" judgingCriteria={[
-            { label: 'All demands met', points: '30 pts' },
-            { label: 'Within budget', points: '20 pts' },
-            { label: 'Constraint satisfied', points: '20 pts' },
-            { label: 'Carbon minimized', points: 'up to 30 pts' },
+            { label: 'Each correct answer', points: '5 pts' },
+            { label: 'Max score', points: '100 pts' },
           ]} />
         </TabsContent>
       </Tabs>

@@ -128,7 +128,7 @@ export default function Leaderboard() {
         {lookupEntry && (
           <div className="mt-4 border border-cream-border rounded-xl p-4 bg-white">
             <p className="font-display text-lg text-ink mb-1">Team {lookupEntry.teamId}</p>
-            <p className="font-mono text-2xl text-leaf font-bold mb-3">{lookupEntry.total}/500</p>
+            <p className="font-mono text-2xl text-leaf font-bold mb-3">{lookupEntry.total}/380</p>
             {(['trivia', 'zone2', 'zone3', 'zone1', 'zone4'] as const).map(z => (
               <div key={z} className="flex justify-between py-1">
                 <span className="font-body text-sm text-ink-muted capitalize">{z}</span>

@@ -27,7 +27,7 @@ export default function HeroSection() {
             Solve the Grid, Save the Planet.
           </h2>
           <div className="flex flex-wrap gap-3 mb-8">
-            {['📅 2026 · BMSCE', '👥 Teams of 2', '🏆 4 Zones · 500 pts'].map(chip => (
+            {['📅 2026 · BMSCE', '👥 Teams of 2', '🏆 4 Zones · 380 pts'].map(chip => (
               <span key={chip} className="font-mono text-xs bg-cream-alt border border-cream-border px-3 py-1.5 rounded-full text-ink-muted">
                 {chip}
               </span>
@@ -50,7 +50,7 @@ export default function HeroSection() {
           <div className="border border-cream-border rounded-2xl p-6 bg-white/60">
             <div className="flex items-baseline justify-between mb-1">
               <span className="font-display text-xl text-ink">Max Score</span>
-              <span className="font-display text-4xl text-leaf">500 <span className="text-lg text-ink-muted">pts</span></span>
+              <span className="font-display text-4xl text-leaf">380 <span className="text-lg text-ink-muted">pts</span></span>
             </div>
             <p className="text-xs font-mono text-ink-muted mb-6">/ across all 5 zones</p>
             <div className="space-y-3">
@@ -59,7 +59,9 @@ export default function HeroSection() {
                   <span className="font-body text-sm text-ink">
                     {z.emoji} {z.name} <span className="text-ink-muted">| {z.type}</span>
                   </span>
-                  <span className="font-mono text-sm text-leaf font-bold">100 pts</span>
+                  <span className="font-mono text-sm text-leaf font-bold">
+                    {z.name === 'Tech Trivia' ? '60 pts' : z.name === 'Eco Shards' ? '20 pts' : '100 pts'}
+                  </span>
                 </div>
               ))}
             </div>

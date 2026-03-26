@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 const stats = [
   { value: 4, label: 'Zones' },
   { value: 2, suffix: 'h', label: 'Duration' },
-  { value: 500, label: 'Max Points' },
+  { value: 380, label: 'Max Points' },
 ];
 
 export default function OrganizerSection() {

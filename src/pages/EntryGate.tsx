@@ -25,7 +25,11 @@ export default function EntryGate() {
     const name = teamName.trim() || id;
     dispatch({ type: 'SET_TEAM_ID', teamId: id, teamName: name });
     // Register team in Convex backend
-    await registerTeam(id, name);
+    try {
+      await registerTeam(id, name);
+    } catch (e) {
+      console.warn('Failed to register team in backend:', e);
+    }
     navigate('/trivia');
   };
 
@@ -39,7 +43,7 @@ export default function EntryGate() {
   };
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen min-h-[100dvh] bg-cream flex flex-col items-center justify-center px-6 py-12">
       {mode !== 'select' && (
         <button
           onClick={() => setMode('select')}
